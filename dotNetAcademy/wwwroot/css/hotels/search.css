@@ -1,0 +1,105 @@
+﻿
+#main-wrapper {
+    width: 100%;
+    max-width: 1280px;
+    /*max-width: 1140px;*/
+    margin: 0 auto;
+    display: flex;
+}
+
+.col-left {
+    flex: 0;
+}
+
+.col-right {
+    flex: 1;
+}
+
+.search-box {
+    padding: 15px;
+    background-color: #ffffff;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto auto auto;
+    grid-gap: 5px;
+}
+
+@media screen and (min-width:1140px) {
+    #main-wrapper {
+        display: block;
+    }
+
+    .search-box {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+        grid-template-rows: auto;
+    }
+}
+
+
+/*@media screen and (max-width:1140px) and (min-width:720px) {*/
+@media screen and (max-width:1140px) and (min-width:831px) {
+    #main-wrapper {
+        display: block;
+    }
+
+    .search-box {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+        grid-template-rows: auto;
+    }
+}
+
+/*@media screen and (max-width:720px) and (min-width:541px) {*/
+@media screen and (max-width:830px) and (min-width:541px) {
+    #main-wrapper {
+        display: block;
+    }
+
+    .search-box {
+        display: grid;
+        grid-template-columns: auto auto;
+        grid-template-rows: auto;
+    }
+
+    button.btn {
+        grid-column: 1 / 3;
+    }
+}
+
+@media screen and (max-width:540px) {
+    #main-wrapper {
+        display: block;
+    }
+
+    .search-box {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+    }
+}
+
+
+
+
+/*@media screen and (max-width:1140px) and (min-width:721px) {
+    .search-box {
+        grid-template-columns: auto auto auto auto auto;
+        grid-template-rows: auto;    
+    }
+}*/
+
+/*@media screen and (max-width:720px) and (min-width:541px) {
+    .search-box {
+        grid-template-columns: auto auto auto auto auto;
+        grid-template-rows: auto;    
+    }
+}    
+
+@media screen and (max-width:540px) {
+    .search-box {
+        grid-template-columns: auto;
+        grid-template-rows: auto auto auto auto auto;     
+    }
+}   
+*/

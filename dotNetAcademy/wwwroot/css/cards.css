@@ -1,0 +1,178 @@
+﻿
+.cards-container {
+    box-sizing: border-box;
+    display: grid;
+    padding: 15px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-gap: 20px;
+}
+
+
+a.card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.hotel-card {
+    /*min-height: 100%;*/
+    /*margin: 15px;*/
+    border: 1px solid #cccccc;
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: row;
+    /*display: grid;*/
+    /*grid-template-columns: 200px auto;*/
+    /*grid-template-rows: 200px;*/
+}
+
+
+    .hotel-card:hover {
+        background-color: #dddddd;
+    }
+
+
+@media screen and (max-width:1140px) and (min-width:720px) {
+    .cards-container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+    }
+
+    .hotel-card {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width:720px) and (min-width:541px) {
+    .cards-container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+    }
+
+    .hotel-card {
+        flex-direction: row;
+    }
+}
+
+
+@media screen and (max-width:720px) and (min-width:541px) {
+    .cards-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .hotel-card {
+        flex-direction: row;
+    }
+}
+
+@media screen and (max-width:540px) {
+    .cards-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .hotel-card {
+        flex-direction: column;
+    }
+}
+
+
+.card-image {
+    flex: 1;
+    min-height: 300px;
+    /*width: 300PX;*/
+    background-size: cover;
+    background-position: center center;
+    /*height: 100px;*/
+}
+/*.card .thumb {
+  padding-bottom: 60%;
+  background-size: cover;
+  background-position: center center;
+}
+*/
+
+.card-content {
+    flex: 1;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-row {
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.card-info {
+    flex: 1;
+    /*background-color: cyan;*/
+}
+
+.card-title {
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 999;
+    /*background-color: purple;*/
+}
+
+.card-location {
+    color: #bbbbbb;
+}
+
+.card-rate {
+    display: inline;
+    flex: 0;
+    font-size: 1.7em;
+    font-weight: 999;
+    /*line-height: 60px;*/
+    padding: 0 15px;
+    /*background-color: red;*/
+}
+
+.card-rate {
+}
+
+    .card-rate i {
+        font-size: 0.9em;
+        display: inline;
+        color: #f1c40f;
+    }
+
+
+.card-location {
+    font-size: 1.1em;
+}
+
+.card-text {
+    flex: 1;
+    /*height: 150px;*/
+    font-size: 0.9em;
+    overflow-y: auto;
+}
+
+.card-type {
+    /*flex: 1;*/
+    font-size: 0.9em;
+}
+
+.card-guests {
+    padding: 0 15px;
+    text-align: left;
+    flex: 1;
+    font-size: 0.9em;
+}
+
+.card-pricing {
+    padding: 0;
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.card-amount {
+    font-size: 1.3em;
+    font-weight: 999;
+}

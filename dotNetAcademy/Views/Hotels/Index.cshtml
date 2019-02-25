@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@section Css {
+    <link href="@Url.Content("~/css/hotels/index.css")" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="@Url.Content("~/js/hotels/index.js")"></script>
+}
+
+
+
+
+<form action='@Url.Action("Search", "Hotels", null, null)' onsubmit="return formIsValid()">
+    <div class="search-box form-primary">
+
+        <div id="search-errors"></div>
+
+
+        <!-- <select id="city" class="inp-primary" name="city" pattern="[a-zA-Z]{1,15}"> -->
+        <input id="city" type="text" list="cities" class="inp-primary" name="city" placeholder="City" pattern="[a-zA-Z]{1,15}">
+        <datalist id="cities" class="inp-primary" name="persons">
+            <option value="Athens"></option>
+            <option value="Agrinio"></option>
+            <option value="Patras"></option>
+            <option value="Thessaloniki"></option>
+            <option value="Arta"></option>
+
+            <!-- 								<option value="" disabled selected>City</option>
+                                        <option value="1">Athens</option>
+                                        <option value="2">Patras</option>
+                                        <option value="3">Agrinio</option> -->
+        </datalist>
+
+        <!-- 							<input id="daterange" type="text" name="daterange" value="01/01/2018 - 01/15/2018" autocomplete="off" />
+                                <input id="checkin" type="hidden" name="checkin" />
+                                <input id="checkout" type="hidden" name="checkout" /> -->
+        <select id="persons" class="inp-primary" name="persons">
+            <option value="" disabled selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+        </select>
+
+        <input id="checkin"
+               name="checkin"
+               type='text'
+               class='datepicker-here'
+               data-language='en'
+               placeholder="22/02/2019"
+               autocomplete="off" />
+
+        <input id="checkout"
+               name="checkout"
+               type='text'
+               class='datepicker-here'
+               data-language='en'
+               placeholder="23/02/2019"
+               autocomplete="off" />
+
+
+        <!-- <button class="btn btn-primary disabled" disabled="disabled" type="submit" value="Submit">Search</button> -->
+        <button class="btn btn-primary" type="submit" value="Submit">Search</button>
+
+    </div>
+</form>

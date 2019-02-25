@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Room>
+
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+@section Css {
+    <link href="@Url.Content("~/css/hotels/search.css")" rel="stylesheet" />
+}
+
+@section Scripts {
+    <script src="@Url.Content("~/js/hotels/search.js")"></script>
+    <script async defer type="text/javascript" src="https://maps.google.com/maps/api/js?v=3.exp&key=AIzaSyAP1CBF-e5lFiBHvj-xya_5W9reCj8O6mQ&callback=initMap"></script>
+}
+
+<div class="col-left">
+
+    <form action='@Url.Action("Search", "Hotels", null, null)' onsubmit="return formValidation()" autocomplete="off">
+        <div class="search-box form-primary">
+
+            <input id="city" type="text" list="cities" class="inp-primary" name="city" placeholder="City" pattern="[a-zA-Z]{1,15}">
+            <datalist id="cities" class="inp-primary" name="persons">
+                <option value="Athens"></option>
+                <option value="Agrinio"></option>
+                <option value="Patras"></option>
+                <option value="Thessaloniki"></option>
+                <option value="Arta"></option>
+
+                <!-- 								<option value="" disabled selected>City</option>
+                                    <option value="1">Athens</option>
+                                    <option value="2">Patras</option>
+                                    <option value="3">Agrinio</option> -->
+            </datalist>
+
+            <!-- 							<input id="daterange" type="text" name="daterange" value="01/01/2018 - 01/15/2018" autocomplete="off" />
+                            <input id="checkin" type="hidden" name="checkin" />
+                            <input id="checkout" type="hidden" name="checkout" /> -->
+            <select id="persons" class="inp-primary" name="persons">
+                <option value="" disabled selected>0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+
+            <input id="checkin"
+                   name="checkin"
+                   type='text'
+                   class='datepicker-here'
+                   data-language='en'
+                   placeholder="22/02/2019"
+                   autocomplete="off" />
+
+            <input id="checkout"
+                   name="checkout"
+                   type='text'
+                   class='datepicker-here'
+                   data-language='en'
+                   placeholder="23/02/2019"
+                   autocomplete="off" />
+
+            <button class="btn btn-primary" type="submit" value="Submit">Search</button>
+
+        </div>
+    </form>
+</div>
+
+<div class="col-right">
+    <div class="cards-container">
+        @foreach (var room in Model)
+        {
+        <a class="card-link" href='@Url.Action("Room", "Hotels", new { id=room.RoomId}, null)'>
+            <div class="hotel-card">
+                <div class="card-image" style="background-image: url(/img/@(room.Photo));"></div>
+                <div class="card-content">
+                    <div class="card-row">
+                        <div class="card-info">
+                            <div class="card-title">@(room.Name)</div>
+                            <div class="card-location">@(room.Area), @(room.City)</div>
+                        </div>
+                        <div class="card-rate">4<i class="fas fa-star"></i></div>
+                    </div>
+
+                    <div class="card-text">
+                        @(room.ShortDescription)
+                    </div>
+                    <div class="card-row">
+                        <div class="card-type"><i class="fas fa-home"></i> Single Room</div>
+                        <div class="card-guests"><i class="fas fa-users"></i> @(room.CountOfGuests)</div>
+                        <div class="card-pricing"><span class="card-amount">@(room.Price) &euro;</span> / per night </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        }
+        
+
+    </div>
+</div>
