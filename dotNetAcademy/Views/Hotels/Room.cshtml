@@ -1,4 +1,4 @@
-﻿@model dotNetAcademy.Models.Room
+﻿@model dotNetAcademy.Models.RoomExtended
 
 
 @{
@@ -12,62 +12,66 @@
 }
 
 @section Scripts {
+    <script>
+        var lat = @Model.Room.LatLocation;
+        var lng = @Model.Room.LngLocation;
+    </script>
     <script src="@Url.Content("~/js/hotels/room.js")"></script>
     <script async defer type="text/javascript" src="https://maps.google.com/maps/api/js?v=3.exp&key=AIzaSyAP1CBF-e5lFiBHvj-xya_5W9reCj8O6mQ&callback=initMap"></script>
 }
 
 <div class="room-header">
-    <span class="room-title">@(Model.Name)</span>
-    <span class="room-location">@(Model.Location), @(Model.Area), @(Model.City)</span>
-    <span class="room-rate">3.5</span>
-    <span class="room-pricing"><span class="card-amount">@(Model.Price) &euro;</span> / per night</span>
+    <span class="room-title">@(Model.Room.Name)</span>
+    <span class="room-location">@(Model.Room.Location), @(Model.Room.Area), @(Model.Room.City)</span>
+    <span class="room-rate">@(Model.Rate)</span>
+    <span class="room-pricing"><span class="card-amount">@(Model.Room.Price) &euro;</span> / per night</span>
 </div>
-<!-- <div class="room-image" style="background-image: url(img/room-1.jpg);"></div> -->
 <div class="room-image">
-    <img src="~/img/@(Model.Photo)" alt="Flowers in Chania">
+    <img src="~/img/@(Model.Room.Photo)" alt="Flowers in Chania">
 </div>
 
-<!-- <div class="room-line"></div>                 -->
 <div class="room-inpage-title">Features</div>
 
 <div class="room-features">
     <div class="room-feature">
         <i class="fas fa-hotel"></i>
-        <span> Single Room</span>
+        <span> @(Model.Type.RoomType1)</span>
     </div>
     <div class="room-feature">
         <i class="fas fa-users"></i>
-        <span> @(Model.CountOfGuests) guests</span>
+        <span> @(Model.Room.CountOfGuests) guests</span>
     </div>
-    <div class="room-feature">
-        <i class="fas fa-wifi"></i>
-        <span> No wifi</span>
-    </div>
-    <div class="room-feature">
-        <i class="fas fa-parking"></i>
-        <span> Has parking</span>
-    </div>
-    <div class="room-feature">
-        <!-- <i class="fas fa-dog"></i> -->
-        <i class="fas fa-paw"></i>
-        <span> Pet friendly</span>
-    </div>
+    @if (Model.Room.Wifi == 1) {
+        <div class="room-feature">
+            <i class="fas fa-wifi"></i>
+            <span>Has wifi</span>
+        </div>
+    }
+    @if (Model.Room.Parking == 1) {
+        <div class="room-feature">
+            <i class="fas fa-parking"></i>
+            <span> Has parking</span>
+        </div>
+    }
+    @if (Model.Room.PetFriendly == 1) {
+        <div class="room-feature">
+            <i class="fas fa-paw"></i>
+            <span> Pet friendly</span>
+        </div>
+    }
 </div>
 
 <div class="room-inpage-title">Description</div>
-<!-- <div class="room-line"></div>                 -->
 
 <div class="room-text">
-    @(Model.LongDescription)
+    @(Model.Room.LongDescription)
 </div>
 
 <div class="room-inpage-title">Location</div>
-<!-- <div class="room-line"></div>                 -->
 
 <div id="map" class="room-map"></div>
 
 <div class="room-inpage-title">Reviews</div>
-<!-- <div class="room-line"></div>                 -->
 
 <div class="room-add-review">
     <form action="" onsubmit="return false;" autocomplete="off">

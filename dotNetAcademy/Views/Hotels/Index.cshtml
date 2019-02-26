@@ -2,6 +2,10 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
+
+
+    var cities = ViewData.Eval("Cities") as IEnumerable<string>;
+
 }
 
 @section Css {
@@ -15,7 +19,8 @@
 
 
 
-<form action='@Url.Action("Search", "Hotels", null, null)' onsubmit="return formIsValid()">
+@*<form action='@Url.Action("Search", "Hotels", null, null)' onsubmit="return formIsValid()">*@
+<form method="get" asp-controller="Hotels" asp-action="Search" onsubmit="return formIsValid()">
     <div class="search-box form-primary">
 
         <div id="search-errors"></div>
@@ -24,16 +29,12 @@
         <!-- <select id="city" class="inp-primary" name="city" pattern="[a-zA-Z]{1,15}"> -->
         <input id="city" type="text" list="cities" class="inp-primary" name="city" placeholder="City" pattern="[a-zA-Z]{1,15}">
         <datalist id="cities" class="inp-primary" name="persons">
-            <option value="Athens"></option>
-            <option value="Agrinio"></option>
-            <option value="Patras"></option>
-            <option value="Thessaloniki"></option>
-            <option value="Arta"></option>
-
-            <!-- 								<option value="" disabled selected>City</option>
-                                        <option value="1">Athens</option>
-                                        <option value="2">Patras</option>
-                                        <option value="3">Agrinio</option> -->
+            <option value="" disabled selected>City</option>
+            @if ( cities != null ) { 
+                @foreach (var city in cities) {
+                    <option value="@(city)"></option>
+                }
+            }
         </datalist>
 
         <!-- 							<input id="daterange" type="text" name="daterange" value="01/01/2018 - 01/15/2018" autocomplete="off" />

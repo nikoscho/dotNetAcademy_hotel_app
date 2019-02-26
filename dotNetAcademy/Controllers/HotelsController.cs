@@ -18,63 +18,88 @@ namespace dotNetAcademy.Controllers
             this.db = db;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            return View(new { City = db.Room.Select(o => o.City).Distinct().ToList() } );
         }
 
-        public IActionResult Search(string city, string checkin, string checkout, int? persons = 0)
+        [HttpGet]
+        public IActionResult Search(string city, string checkin, string checkout, int? persons = 0, int? minprice = 0, int? maxprice = 0)
         {
 
-            //var person = db.Room
-            //    .Join(db.RoomType,
-            //          p => p.RoomType,
-            //          e => e.Id,
-            //          (p, e) => new {
-            //              RoomType = e.Id
-            //          }
-            //          ).Take(5);
+            IEnumerable<RoomExtended> rooms = null;
 
-            //return View(person);
+            //rooms = (from c in db.Room
+            //         join u in db.RoomType on c.RoomType equals u.Id
+            //         select new RoomExtended {
+            //             Room = c,
+            //             Type = u
+            //         }
+            //    );
 
+            rooms = db.Room
+                .Join( db.RoomType,
+                    room => room.RoomType,
+                    type => type.Id,
+                    (room, type) =>
+                         new RoomExtended {
+                             Room = room,
+                             Type = type
+                         }
+                )
+                .Where( 
+                    room =>
+                        persons <= room.Room.CountOfGuests
+                        && (string.IsNullOrEmpty(city) || room.Room.City == city)
+                );
 
-            return View(
-                db.Room
-                    .Where(room =>
-                        persons <= room.CountOfGuests
-                        && ( string.IsNullOrEmpty(city) || room.City == city )
-                    )
-            );
+            //rooms = rooms
+            //    .Join( 
+            //        db.Reviews.GroupBy(review => review.RoomId).Select(review => new { ReviewRoomId = review.Key, AverageRate = review.Min(r => r.Rate)}),
+            //        room => room.Room.RoomId,
+            //        review => review?.ReviewRoomId,
+            //        (room, review) =>
+            //             new RoomExtended {
+            //                 Room = room.Room,
+            //                 Type = room.Type,
+            //                 Rate = review?.AverageRate
+            //             }
+            //    );
 
-
-
-
+            return View(rooms);
         }
 
+        [HttpGet]
         public IActionResult Room(int? id)
         {
-            //return View(db.Room.Where(room => room.City == "Athens"));
+            RoomExtended room = null;
 
-            //ViewBag.somevariable = "eeee";
-            //ViewBag.someid = id;
-            //return View();
+            room = db.Room
+                .Join(db.RoomType,
+                    roomobj => roomobj.RoomType,
+                    type => type.Id,
+                    (roomobj, type) =>
+                         new RoomExtended {
+                             Room = roomobj,
+                             Type = type
+                         }
+                )
+                .Where(
+                    roomobj => roomobj.Room.RoomId == id
+                ).SingleOrDefault();
 
-            //if (id == null)
-            //{
-                //return new System.Web.HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var rate = db.Reviews
+                .Where(
+                    review => review.RoomId == id
+                ).GroupBy(review => review.RoomId)
+                .Select(review => new
+                {
+                    AverageRate = review.Min( r => r.Rate)
+                }).SingleOrDefault();
 
-            //}
-
-            Room room = db.Room.SingleOrDefault(Room => Room.RoomId == id);
-
-            //if (room == null)
-            //{
-                //return HttpNotFound();
-            //}
-
+            Console.WriteLine("--- rate", rate);
             return View(room);
-
         }
-
     }
 }

@@ -11,6 +11,7 @@ namespace dotNetAcademy.Models
         public string Area { get; set; }
         public string Photo { get; set; }
         public int RoomType { get; set; }
+        //public RoomType RoomType { get; set; }
         public int CountOfGuests { get; set; }
         public int Price { get; set; }
         public string Location { get; set; }

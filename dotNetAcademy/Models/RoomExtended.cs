@@ -8,5 +8,6 @@ namespace dotNetAcademy.Models
     {
         public Room Room { get; set; }
         public RoomType Type { get; set; }
+        public float? Rate { get; set; }
     }
 }

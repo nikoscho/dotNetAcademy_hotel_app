@@ -4,15 +4,16 @@ $(function () {
 
     $('#checkin').datepicker({
         language: 'en',
-        minDate: new Date() // Now can select only dates, which goes after today
+        dateFormat: 'dd/mm/yyyy',
+        minDate: new Date()
     })
 
 
     $('#checkout').datepicker({
         language: 'en',
-        minDate: new Date() // Now can select only dates, which goes after today
+        dateFormat: 'dd/mm/yyyy',
+        minDate: new Date()
     })
-
 
 
 });
