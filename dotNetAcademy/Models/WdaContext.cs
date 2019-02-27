@@ -97,8 +97,8 @@ namespace dotNetAcademy.Models
                     .HasColumnType("int(11)");
             });
 
-            modelBuilder.Entity<Reviews>(entity =>
-            {
+            modelBuilder.Entity<Reviews>
+                (entity => {
                 entity.HasKey(e => e.ReviewId);
 
                 entity.ToTable("reviews");
@@ -117,9 +117,14 @@ namespace dotNetAcademy.Models
                     .HasColumnName("rate")
                     .HasColumnType("int(11)");
 
+                //entity.Property(e => e.RoomId)
+                //    .HasColumnName("room_id")
+                //    .HasColumnType("int(11)");
                 entity.Property(e => e.RoomId)
                     .HasColumnName("room_id")
                     .HasColumnType("int(11)");
+
+                    //entity.HasOne<Room>(c => c.Room);
 
                 entity.Property(e => e.Text)
                     .IsRequired()
@@ -134,6 +139,8 @@ namespace dotNetAcademy.Models
             modelBuilder.Entity<Room>(entity =>
             {
                 entity.ToTable("room");
+
+                //entity.HasMany<Reviews>( c => c.Reviews);
 
                 entity.Property(e => e.RoomId)
                     .HasColumnName("room_id")
@@ -195,7 +202,7 @@ namespace dotNetAcademy.Models
                     .HasColumnName("price")
                     .HasColumnType("int(11)");
 
-                entity.Property(e => e.RoomType)
+                entity.Property(e => e.RoomTypeId)
                     .HasColumnName("room_type")
                     .HasColumnType("int(11)");
 

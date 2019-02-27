@@ -1,10 +1,12 @@
-﻿
+﻿@model dotNetAcademy.ViewModels.RoomFiltersViewModel
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_MainLayout.cshtml";
 
 
-    var cities = ViewData.Eval("Cities") as IEnumerable<string>;
+    var cities = ViewData["Cities"] as IEnumerable<string>;
+    var roomTypes = ViewData["RoomTypes"] as IEnumerable<RoomType>;
 
 }
 
@@ -23,51 +25,55 @@
 <form method="get" asp-controller="Hotels" asp-action="Search" onsubmit="return formIsValid()">
     <div class="search-box form-primary">
 
-        <div id="search-errors"></div>
+        <div id="search-errors">
+            <span asp-validation-for="City"></span>
+            <span asp-validation-for="RoomTypeId"></span>
+            <span asp-validation-for="CheckIn"></span>
+            <span asp-validation-for="CheckOut"></span>
+        </div>
 
+        <select id="city"
+                name="city"
+                class="inp-primary"
+                asp-for="City"
+                asp-items="@(new SelectList(cities))">
+        
+            <option value="" hidden disabled selected>
+                @Html.DisplayNameFor( i => i.City )
+            </option>
 
-        <!-- <select id="city" class="inp-primary" name="city" pattern="[a-zA-Z]{1,15}"> -->
-        <input id="city" type="text" list="cities" class="inp-primary" name="city" placeholder="City" pattern="[a-zA-Z]{1,15}">
-        <datalist id="cities" class="inp-primary" name="persons">
-            <option value="" disabled selected>City</option>
-            @if ( cities != null ) { 
-                @foreach (var city in cities) {
-                    <option value="@(city)"></option>
-                }
-            }
-        </datalist>
+        </select>
 
-        <!-- 							<input id="daterange" type="text" name="daterange" value="01/01/2018 - 01/15/2018" autocomplete="off" />
-                                <input id="checkin" type="hidden" name="checkin" />
-                                <input id="checkout" type="hidden" name="checkout" /> -->
-        <select id="persons" class="inp-primary" name="persons">
-            <option value="" disabled selected>0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
+        <select id="roomtype"
+                name="roomtype"
+                class="inp-primary"
+                asp-for="RoomTypeId"
+                asp-items="@(new SelectList(roomTypes, "Id", "RoomType1"))">
+
+            <option value="" hidden disabled selected>
+                @Html.DisplayNameFor(i => i.RoomTypeId)
+            </option>
+
         </select>
 
         <input id="checkin"
                name="checkin"
-               type='text'
                class='datepicker-here'
+               type='text'
+               asp-for="CheckIn"
                data-language='en'
-               placeholder="22/02/2019"
+               placeholder="@Html.DisplayNameFor(i => i.CheckIn)"
                autocomplete="off" />
 
         <input id="checkout"
                name="checkout"
-               type='text'
                class='datepicker-here'
+               type='text'
+               asp-for="CheckOut"
                data-language='en'
-               placeholder="23/02/2019"
+               placeholder="@Html.DisplayNameFor(i => i.CheckOut)"
                autocomplete="off" />
 
-
-        <!-- <button class="btn btn-primary disabled" disabled="disabled" type="submit" value="Submit">Search</button> -->
         <button class="btn btn-primary" type="submit" value="Submit">Search</button>
 
     </div>
