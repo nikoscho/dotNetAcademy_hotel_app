@@ -83,30 +83,29 @@
 </div>
 
 <div class="room-reviews">
-    <div class="room-review">
-        <div class="review-user">
-            <i class="fas fa-user"></i>
-            <span>Nikos</span>
+    @foreach (var review in Model.Reviews) {
+        <div class="room-review">
+            <div class="review-user">
+                <i class="fas fa-user"></i>
+                <span>Nikos</span>
+            </div>
+            <div class="review-stars">
+                @*@for (var i = 1; i <= review.Rate; i++) {<i class="fas fa-star"></i>}*@
+
+                @for (var i = 1; i <= 5; i++) {
+
+                    @if (i <= review.Rate) 
+                    {
+                        <i class="fas fa-star yellow"></i>
+                    } else {
+                        <i class="fas fa-star grey"></i>
+                    }
+                }
+
+            </div>
+            <div class="review-text">
+                @(review.Text)                    
+            </div>
         </div>
-        <div class="review-stars">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-        </div>
-        <div class="review-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras consequat augue at urna ultricies, et iaculis leo tristique. Maecenas eget eros ac nisl molestie faucibus at vel odio. Aliquam id ullamcorper libero, non congue augue. In placerat lectus ac consectetur elementum. Vivamus et posuere tellus. Praesent sagittis tellus ligula, sed dignissim arcu venenatis ac. Ut ullamcorper aliquam mauris, ac ultricies nulla ullamcorper ut. In mollis imperdiet ex nec semper. Aenean bibendum libero vitae lacus varius tempor. Praesent consequat neque lacinia sapien venenatis, ac finibus felis sollicitudin. Nullam at vestibulum diam.
-        </div>
-    </div>
-    <div class="room-review">
-        <div class="review-user">
-            <i class="fas fa-user"></i>
-            <span>Giorgos</span>
-        </div>
-        <div class="review-stars">
-            <i class="fas fa-star"></i>
-        </div>
-        <div class="review-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras consequat augue at urna ultricies, et iaculis leo tristique. Maecenas eget eros ac nisl molestie faucibus at vel odio. Aliquam id ullamcorper libero, non congue augue. In placerat lectus ac consectetur elementum. Vivamus et posuere tellus. Praesent sagittis tellus ligula, sed dignissim arcu venenatis ac. Ut ullamcorper aliquam mauris, ac ultricies nulla ullamcorper ut. In mollis imperdiet ex nec semper. Aenean bibendum libero vitae lacus varius tempor. Praesent consequat neque lacinia sapien venenatis, ac finibus felis sollicitudin. Nullam at vestibulum diam.
-        </div>
-    </div>
+    }
 </div>

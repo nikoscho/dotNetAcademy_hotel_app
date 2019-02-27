@@ -132,7 +132,9 @@ namespace dotNetAcademy.Controllers
             //    ).SingleOrDefault();
 
 
-            Room room = db.Room.Include( r => r.RoomType)
+            Room room = db.Room
+                .Include( r => r.RoomType)
+                .Include( r => r.Reviews)
                 .Where(
                     r => r.RoomId == id
                 ).SingleOrDefault();

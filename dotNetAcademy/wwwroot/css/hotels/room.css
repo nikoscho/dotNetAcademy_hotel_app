@@ -132,17 +132,24 @@
     border-left: 3px solid var(--main-accent-color);
 }
 
-    .room-review:hover {
-        background-color: #dddddd;
-    }
+.room-review:hover {
+    background-color: #dddddd;
+}
 
-    .room-review:hover {
-        background-color: #dddddd;
-    }
+.room-review:hover {
+    background-color: #dddddd;
+}
 
 .review-stars i {
     color: var(--main-accent-color);
 }
+.review-stars i.yellow {
+    color: var(--main-accent-color);
+}
+.review-stars i.grey {
+    color: #dddddd;
+}
+
 
 .review-text {
     font-size: 0.9em;

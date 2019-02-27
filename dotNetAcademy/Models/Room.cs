@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace dotNetAcademy.Models
 {
-    public partial class Room
-    {
+    public partial class Room {
         public int RoomId { get; set; }
         public string Name { get; set; }
         public string City { get; set; }
@@ -22,5 +21,10 @@ namespace dotNetAcademy.Models
         public int Parking { get; set; }
         public int Wifi { get; set; }
         public int PetFriendly { get; set; }
+
+        public int? Rate { get; set; }
+
+        public virtual ICollection<Reviews> Reviews { get; set; }
+
     }
 }
