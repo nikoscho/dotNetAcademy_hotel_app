@@ -15,6 +15,10 @@ namespace dotNetAcademy.Controllers
             return View();
         }
 
+        public IActionResult Login() {
+            return View();
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

@@ -38,10 +38,10 @@
     display: block;
 }
 
-@media screen and (max-width:830px) {
+@media screen and (max-width:981px) {
 }
 
-@media screen and (max-width:830px) and (min-width:541px) {
+@media screen and (max-width:980px) and (min-width:541px) {
     .search-box {
         grid-template-columns: auto auto;
         grid-template-rows: auto auto;

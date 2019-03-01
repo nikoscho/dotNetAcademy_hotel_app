@@ -10,6 +10,9 @@ namespace dotNetAcademy.ViewModels {
         [Display(Name = "City")]
         public string City { get; set; }
 
+        [Display(Name = "Guests")]
+        public int? NumberOfGuests { get; set; }
+
         [Display(Name = "Room Type")]
         public int? RoomTypeId { get; set; }
 

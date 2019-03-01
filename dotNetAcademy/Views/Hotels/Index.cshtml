@@ -33,7 +33,6 @@
         </div>
 
         <select id="city"
-                name="city"
                 class="inp-primary"
                 asp-for="City"
                 asp-items="@(new SelectList(cities))">
@@ -45,7 +44,6 @@
         </select>
 
         <select id="roomtype"
-                name="roomtype"
                 class="inp-primary"
                 asp-for="RoomTypeId"
                 asp-items="@(new SelectList(roomTypes, "Id", "RoomType1"))">
@@ -57,7 +55,6 @@
         </select>
 
         <input id="checkin"
-               name="checkin"
                class='datepicker-here'
                type='text'
                asp-for="CheckIn"
@@ -66,7 +63,6 @@
                autocomplete="off" />
 
         <input id="checkout"
-               name="checkout"
                class='datepicker-here'
                type='text'
                asp-for="CheckOut"

@@ -22,8 +22,6 @@ namespace dotNetAcademy.Models
         public int Wifi { get; set; }
         public int PetFriendly { get; set; }
 
-        public int? Rate { get; set; }
-
         public virtual ICollection<Reviews> Reviews { get; set; }
 
     }

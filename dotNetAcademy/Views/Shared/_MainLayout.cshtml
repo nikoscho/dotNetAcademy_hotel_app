@@ -13,12 +13,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-    <!-- Datepicker -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
     <!-- Air Datepicker -->
     <link rel="stylesheet" type="text/css" href="~/lib/air-datepicker/dist/css/datepicker.css" />
-
+    
 
     <environment include="Development">
         <link rel="stylesheet" href="~/css/root.css" />
@@ -53,7 +50,7 @@
         <div class="nav-links">
             <a href='@Url.Action("Index", "Hotels", null, null)'>Home</a>
             <a href='@Url.Action("Index", "Hotels", null, null)'>Profile</a>
-            <a href='@Url.Action("Index", "Hotels", null, null)'>Login</a>
+            <a href='@Url.Action("Login", "Home", null, null)'>Login</a>
         </div>
     </nav>
 
@@ -75,12 +72,10 @@
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
 
-    <!-- Datepicker -->
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script> -->
-    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
     <!-- Air Datepicker -->
     <script type="text/javascript" src="~/lib/air-datepicker/dist/js/datepicker.js"></script>
     <script type="text/javascript" src="~/lib/air-datepicker/dist/js/i18n/datepicker.en.js"></script>
+
 
     @RenderSection("Scripts", false)
 

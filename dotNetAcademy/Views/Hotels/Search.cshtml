@@ -25,37 +25,39 @@
         <div class="search-box form-primary">
 
             <select id="city"
-                    name="city"
                     class="inp-primary"
-                    value="Athens"
-                    >
+                    name="City"
+                    asp-items="@(new SelectList(cities))">
                 <option value="" hidden disabled selected>
-                    @Html.DisplayNameFor( i => i.City )
+                    City
                 </option>
 
             </select>
 
             <select id="roomtype"
-                    name="roomtype"
                     class="inp-primary"
-                    >
+                    name="RoomTypeId"
+                    asp-items="@(new SelectList(roomTypes, "Id", "RoomType1"))">
                 <option value="" hidden disabled selected>
-                    @Html.DisplayNameFor(i => i.RoomTypeId)
+                    Room Type
                 </option>
 
             </select>
 
             <input id="checkin"
-                   name="checkin"
                    class='datepicker-here'
                    type='text'
+                   name="CheckIn"
                    data-language='en'
+                   placeholder="Check In"
                    autocomplete="off" />
 
             <input id="checkout"
-                   name="checkout"
                    class='datepicker-here'
+                   type='text'
+                   name="CheckOut"
                    data-language='en'
+                   placeholder="Check Out"
                    autocomplete="off" />
 
             <button class="btn btn-primary" type="submit" value="Submit">Search</button>
@@ -66,9 +68,10 @@
 
 <div class="col-right">
     <div class="cards-container">
-        @if( !Model.Any() ) {
+        @if (!Model.Any()) {
             <span> No room !</span>
         }
+        else {
             @foreach (var room in Model) {
                 <a class="card-link" href='@Url.Action("Room", "Hotels", new { id=room.RoomId}, null)'>
                     <div class="hotel-card">

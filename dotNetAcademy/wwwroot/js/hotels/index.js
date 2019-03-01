@@ -75,17 +75,16 @@ function formIsValid(change_element_class = true) {
 
     var valid_form = true;
 
-    if (!checkField('city', change_element_class, 'search-errors', 'Πολη ρε'))
-        valid_form = false;
-    if (!checkField('persons', change_element_class, 'search-errors', 'Ημερομηνια ατομα ρε'))
-        valid_form = false;
-    if (!checkField('checkin', change_element_class, 'search-errors', 'Ημερομηνια in ρε'))
-        valid_form = false;
-    if (!checkField('checkout', change_element_class, 'search-errors', 'Ημερομηνια out ρε'))
-        valid_form = false;
+    //if (!checkField('city', change_element_class, 'search-errors', 'Πολη ρε'))
+    //    valid_form = false;
+    //if (!checkField('persons', change_element_class, 'search-errors', 'Ημερομηνια ατομα ρε'))
+    //    valid_form = false;
+    //if (!checkField('checkin', change_element_class, 'search-errors', 'Ημερομηνια in ρε'))
+    //    valid_form = false;
+    //if (!checkField('checkout', change_element_class, 'search-errors', 'Ημερομηνια out ρε'))
+    //    valid_form = false;
 
-    //return valid_form;
-    return true;
+    return valid_form;
 }
 
 function checkField(field_id, update_ui, errordiv_id, errormessage) {

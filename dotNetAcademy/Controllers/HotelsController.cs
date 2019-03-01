@@ -32,112 +32,44 @@ namespace dotNetAcademy.Controllers
         [HttpGet]
         public IActionResult Search(RoomFiltersViewModel filters)
         {
+            ViewData["Cities"] = db.Room.Select(r => r.City).Distinct();
+            ViewData["RoomTypes"] = db.RoomType;
 
             if (!ModelState.IsValid)
-                throw new ApplicationException("Invalid Filters");
+                return Redirect(Request.Headers["Referer"].ToString());
+                //throw new ApplicationException("Invalid Filters");
 
-            var rooms = db.Room.Include(room => room.RoomType);
+            //var rooms = db.Room
+            //    .Include(room => room.RoomType)
+            //    .Where( room =>
+            //           ( filters.RoomTypeId == null           || room.RoomTypeId == filters.RoomTypeId    )
+            //        && ( string.IsNullOrEmpty(filters.City)   || room.City == filters.City                )
+            //    );
+
+
+            var rooms = db.Room.Include(room => room.RoomType).AsQueryable();
+
+            if (!string.IsNullOrEmpty(filters.City))
+                rooms = rooms.Where(room => room.City == filters.City);
+
+            if ( filters.RoomTypeId != null )
+                rooms = rooms.Where(room => room.RoomTypeId == filters.RoomTypeId);
 
             return View(rooms);
-
-
-            //IEnumerable<RoomExtended> rooms = null;
-
-            //rooms = (from c in db.Room
-            //         join u in db.RoomType on c.RoomType equals u.Id
-            //         select new RoomExtended {
-            //             Room = c,
-            //             Type = u
-            //         }
-            //    );
-
-            //rooms = db.Room
-            //    .Join( db.RoomType,
-            //        room => room.RoomType,
-            //        type => type.Id,
-            //        (room, type) =>
-            //             new RoomExtended {
-            //                 Room = room,
-            //                 Type = type
-            //             }
-            //    )
-            //    .Where( 
-            //        room =>
-            //            persons <= room.Room.CountOfGuests
-            //            && (string.IsNullOrEmpty(city) || room.Room.City == city)
-            //    );
-
-            //rooms = rooms
-            //    .Join( 
-            //        db.Reviews.GroupBy(review => review.RoomId).Select(review => new { ReviewRoomId = review.Key, AverageRate = review.Min(r => r.Rate)}),
-            //        room => room.Room.RoomId,
-            //        review => review?.ReviewRoomId,
-            //        (room, review) =>
-            //             new RoomExtended {
-            //                 Room = room.Room,
-            //                 Type = room.Type,
-            //                 Rate = review?.AverageRate
-            //             }
-            //    );
-
-            //return View(rooms);
         }
 
         [HttpGet]
         public IActionResult Room(int? id)
         {
-            //RoomExtended room = null;
-
-            //room = db.Room
-            //    .Join(db.RoomType,
-            //        roomobj => roomobj.RoomTypeId,
-            //        type => type.Id,
-            //        (roomobj, type) =>
-            //             new RoomExtended {
-            //                 Room = roomobj,
-            //                 Type = type
-            //             }
-            //    )
-            //    .Where(
-            //        roomobj => roomobj.Room.RoomId == id
-            //    ).SingleOrDefault();
-
-            //room = db.Room
-            //.Join(db.RoomType,
-            //    roomobj => roomobj.RoomType,
-            //    type => type.Id,
-            //    (roomobj, type) =>
-            //         new RoomExtended {
-            //             Room = roomobj,
-            //             Type = type
-            //        }
-            //)
-            //.Where(
-            //    roomobj => roomobj.Room.RoomId == id
-            //).SingleOrDefault();
-
-            //var rate = db.Reviews
-            //    .Where(
-            //        review => review.RoomId == id
-            //    ).GroupBy(review => review.RoomId)
-            //    .Select(review => new
-            //    {
-            //        AverageRate = review.Min( r => r.Rate)
-            //    }).SingleOrDefault();
-
-
-            //Room rooom = db.Room.Include(c => c.RoomType)
-            //    .Where(
-            //        roomobj => roomobj.RoomId == id
-            //    ).SingleOrDefault();
-
-
             Room room = db.Room
                 .Include( r => r.RoomType)
                 .Include( r => r.Reviews)
                 .Where(
                     r => r.RoomId == id
                 ).SingleOrDefault();
+
+            //room.Rate = (int) db.Room
+            //    .Include(r => r.Reviews).Average(r => r.Rate);
 
             return View(room);
         }
