@@ -23,7 +23,7 @@
 <div class="room-header">
     <span class="room-title">@(Model.Name)</span>
     <span class="room-location">@(Model.Location), @(Model.Area), @(Model.City)</span>
-    <span class="room-rate">5</span>
+    <span class="room-rate">@Model.Reviews.Select(x => x.Rate).DefaultIfEmpty(0).Average()</span>
     <span class="room-pricing"><span class="card-amount">@(Model.Price) &euro;</span> / per night</span>
 </div>
 <div class="room-image">

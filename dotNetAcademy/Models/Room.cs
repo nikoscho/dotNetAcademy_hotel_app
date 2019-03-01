@@ -22,7 +22,7 @@ namespace dotNetAcademy.Models
         public int Wifi { get; set; }
         public int PetFriendly { get; set; }
 
-        public virtual ICollection<Reviews> Reviews { get; set; }
+        public ICollection<Reviews> Reviews { get; set; }
 
     }
 }

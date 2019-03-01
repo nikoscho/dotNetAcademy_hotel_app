@@ -39,23 +39,39 @@ namespace dotNetAcademy.Controllers
                 return Redirect(Request.Headers["Referer"].ToString());
                 //throw new ApplicationException("Invalid Filters");
 
-            //var rooms = db.Room
-            //    .Include(room => room.RoomType)
-            //    .Where( room =>
-            //           ( filters.RoomTypeId == null           || room.RoomTypeId == filters.RoomTypeId    )
-            //        && ( string.IsNullOrEmpty(filters.City)   || room.City == filters.City                )
-            //    );
+            var rooms = db.Room
+                .Include(room => room.RoomType)
+                .Include(r => r.Reviews)
+                .Where( room =>
+                       ( filters.RoomTypeId == null           || room.RoomTypeId == filters.RoomTypeId    )
+                    && ( string.IsNullOrEmpty(filters.City)   || room.City == filters.City                )
+                );
 
 
-            var rooms = db.Room.Include(room => room.RoomType).AsQueryable();
 
-            if (!string.IsNullOrEmpty(filters.City))
-                rooms = rooms.Where(room => room.City == filters.City);
+            //var rooms = db.Room.Include(room => room.RoomType).AsQueryable();
 
-            if ( filters.RoomTypeId != null )
-                rooms = rooms.Where(room => room.RoomTypeId == filters.RoomTypeId);
+            //if (!string.IsNullOrEmpty(filters.City))
+            //    rooms = rooms.Where(room => room.City == filters.City);
 
-            return View(rooms);
+            //if ( filters.RoomTypeId != null )
+            //    rooms = rooms.Where(room => room.RoomTypeId == filters.RoomTypeId);
+
+            if (!string.IsNullOrEmpty(filters.CheckIn) && !string.IsNullOrEmpty(filters.CheckOut) && filters.CheckIn.CompareTo(filters.CheckOut) <= 0) {
+
+                var bookings = db.Bookings
+                    .Where(booking =>
+                       booking.CheckInDate.CompareTo(filters.CheckOut) <= 0 &&
+                       filters.CheckIn.CompareTo(booking.CheckOutDate) <= 0);
+
+                rooms = rooms.Where(i => !bookings.Any(b => b.RoomId == i.RoomId));
+
+            }
+
+            SearchViewModel model = new SearchViewModel();
+            model.Rooms = rooms.AsEnumerable();
+
+            return View(model);
         }
 
         [HttpGet]

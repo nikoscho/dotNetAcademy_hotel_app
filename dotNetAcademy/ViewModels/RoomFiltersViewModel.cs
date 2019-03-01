@@ -17,9 +17,11 @@ namespace dotNetAcademy.ViewModels {
         public int? RoomTypeId { get; set; }
 
         [Display(Name = "Check In")]
+        //[Required(ErrorMessage = "Please provide check in date")]
         public string CheckIn { get; set; }
 
         [Display(Name = "Check Out")]
+        //[Required(ErrorMessage = "Please provide check out date")]
         public string CheckOut { get; set; }
 
     }

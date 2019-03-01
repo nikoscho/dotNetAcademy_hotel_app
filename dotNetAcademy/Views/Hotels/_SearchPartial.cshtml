@@ -1,0 +1,58 @@
+﻿@model dotNetAcademy.ViewModels.RoomFiltersViewModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    var cities = ViewData["Cities"] as IEnumerable<string>;
+    var roomTypes = ViewData["RoomTypes"] as IEnumerable<RoomType>;
+}
+
+<form action='@Url.Action("Search", "Hotels", null, null)' onsubmit="return formValidation()" autocomplete="off">
+    <div class="search-box form-primary">
+
+        <select id="city"
+                class="inp-primary"
+                asp-for="City"
+                asp-items="@(new SelectList(cities))">
+            <option value="" hidden disabled selected>
+                City
+            </option>
+
+        </select>
+
+        <select id="roomtype"
+                class="inp-primary"
+                asp-for="RoomTypeId"
+                asp-items="@(new SelectList(roomTypes, "Id", "RoomType1"))">
+            <option value="" hidden disabled selected>
+                Room Type
+            </option>
+
+        </select>
+
+        @*<input id="das"
+                   type="number" />
+            <input id="tre"
+                   type="number" />*@
+
+        <input id="checkin"
+               class='datepicker-here'
+               type='text'
+               asp-for="CheckIn"
+               data-language='en'
+               placeholder="Check In"
+               />
+
+        <input id="checkout"
+               class='datepicker-here'
+               type='text'
+               asp-for="CheckOut"
+               data-language='en'
+               placeholder="Check Out"
+               />
+
+        <button class="btn btn-primary" type="submit" value="Submit">Search</button>
+
+    </div>
+</form>
