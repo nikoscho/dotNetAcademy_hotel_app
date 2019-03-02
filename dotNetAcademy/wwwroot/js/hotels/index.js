@@ -20,14 +20,14 @@
 
     $('#checkin').datepicker({
         language: 'en',
-        dateFormat: 'dd/mm/yyyy',
+        dateFormat: 'yyyy-mm-dd',
         minDate: new Date()
     })
 
 
     $('#checkout').datepicker({
         language: 'en',
-        dateFormat: 'dd/mm/yyyy',
+        dateFormat: 'yyyy-mm-dd',
         minDate: new Date()
     })
 

@@ -20,16 +20,15 @@
 
 
     <script>
-        var query_checkin = @Context.Request.Query["CheckIn"];
-        var query_checkout = @Context.Request.Query["CheckOut"];
+        var query_checkin = '@Context.Request.Query["CheckIn"][0]';
+        var query_checkout = '@Context.Request.Query["CheckOut"][0]';
     </script>
 
 }
 
 <div class="col-left">
-    @*@Html.Partial("_SearchPartial", Model.FilterModel)*@
-    @await Html.PartialAsync("_SearchPartial", Model.FilterModel)
-    @*<partial name="_SearchPartial" for="FilterModel" />*@
+    @*@await Html.PartialAsync("_SearchPartial", Model.FilterModel)*@
+    <partial name="_SearchPartial" model="Model.FilterModel" />
 </div>
 
 <div class="col-right">

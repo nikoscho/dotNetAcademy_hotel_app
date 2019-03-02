@@ -3,21 +3,22 @@ $(function () {
 
     var checkin = $('#checkin').datepicker({
         language: 'en',
-        dateFormat: 'dd/mm/yyyy',
+        dateFormat: 'yyyy-mm-dd',
         minDate: new Date()
     }).data('datepicker');
 
 
     var checkout = $('#checkout').datepicker({
         language: 'en',
-        dateFormat: 'dd/mm/yyyy',
+        dateFormat: 'yyyy-mm-dd',
         minDate: new Date()
     }).data('datepicker');
 
-    //checkin.selectDate(new Date(query_checkin));
-    //checkout.selectDate(new Date(query_checkout));
-    //checkin.selectDate(Date.parse(query_checkin));
-    //checkout.selectDate(Date.parse(query_checkout));
+    if (query_checkin)
+        checkin.selectDate(new Date(query_checkin));
+    if (query_checkout)
+        checkout.selectDate(new Date(query_checkout));
+
 });
 
 

@@ -86,12 +86,25 @@ a.card-link {
     background-position: center center;
     /*height: 100px;*/
 }
-/*.card .thumb {
-  padding-bottom: 60%;
-  background-size: cover;
-  background-position: center center;
+
+.img-zoom-effect {
+    width: 100%;
+    max-height: 50%;
+    overflow: hidden;
 }
-*/
+
+    .img-zoom-effect img {
+        max-width: 100%;
+        -moz-transition: transform 0.3s;
+        -webkit-transition: transform 0.3s;
+        transition: transform 0.3s;
+    }
+
+        .img-zoom-effect img:hover {
+            -moz-transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
 
 .card-content {
     flex: 1;

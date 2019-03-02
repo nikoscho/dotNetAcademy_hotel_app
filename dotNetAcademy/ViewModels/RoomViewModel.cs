@@ -7,6 +7,6 @@ using dotNetAcademy.Models;
 namespace dotNetAcademy.ViewModels {
     public class RoomViewModel {
         public Room Room;
-        public ReviewViewModel Review;
+        public ReviewFormViewModel ReviewForm;
     }
 }

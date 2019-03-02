@@ -172,5 +172,27 @@ button.btn {
 
 
 
+/* ==========================================================================
+   Rating
+   ========================================================================== */
+.form-primary > .rating-input {
+    box-sizing: border-box;
+    height: 40px;
+    vertical-align: middle;
+    /*display:inline-block;*/
+}
 
+.rating-input > i.rating-star {
+    color: #dddddd;
+    cursor: pointer;
+}
+.rating-input i.rating-star.selected {
+    color: var(--main-accent-color);
+}
 
+.rating-input:hover > i.rating-star {
+    color: var(--main-accent-color-dark);
+}
+.rating-input > i.rating-star:hover ~ i.rating-star {
+    color: #dddddd;
+}

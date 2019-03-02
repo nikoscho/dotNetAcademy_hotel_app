@@ -1,4 +1,4 @@
-﻿@model dotNetAcademy.ViewModels.ReviewViewModel
+﻿@model dotNetAcademy.ViewModels.ReviewFormViewModel
 
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,12 +10,23 @@
 
 <form method="post" asp-controller="Hotels" asp-action="Review" asp-route-id="@roomId" onsubmit="" autocomplete="off">
     <div class="form-primary">
+
+        <textarea id="text"
+                  asp-for="Text"></textarea>
+
         <input id="rate"
                type='number'
                asp-for="Rate"
-                />
-        <textarea   id="text"
-                    asp-for="Text"></textarea>
+               hidden />
+
+        <div class="rating-input">
+            <i class="fas fa-star rating-star" name="1"></i>
+            <i class="fas fa-star rating-star" name="2"></i>
+            <i class="fas fa-star rating-star" name="3"></i>
+            <i class="fas fa-star rating-star" name="4"></i>
+            <i class="fas fa-star rating-star" name="5"></i>
+        </div>
+
         <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
     </div>
 </form>

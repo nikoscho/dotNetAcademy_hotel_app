@@ -88,14 +88,14 @@ namespace dotNetAcademy.Controllers
 
             RoomViewModel model = new RoomViewModel {
                 Room = room,
-                Review = new ReviewViewModel()
+                ReviewForm = new ReviewFormViewModel()
             };
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Review(int id, ReviewViewModel review) {
+        public IActionResult Review(int id, ReviewFormViewModel review) {
 
             Reviews review_obj = new Reviews {
                 RoomId = id,
@@ -107,8 +107,7 @@ namespace dotNetAcademy.Controllers
             db.Reviews.Add(review_obj);
             db.SaveChanges();
 
-
-            return RedirectToAction("Room", "Hotels", new { id = id });
+            return RedirectToAction("Room", "Hotels", new { id });
         }
     }
 }

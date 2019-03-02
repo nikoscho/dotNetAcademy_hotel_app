@@ -74,9 +74,7 @@
 
 <div class="room-add-review">
     <div class="col-left">
-        @*@Html.Partial("_SearchPartial", Model.FilterModel)*@
-        @await Html.PartialAsync("_ReviewPartial", Model.Review)
-        @*<partial name="_SearchPartial" for="FilterModel" />*@
+        <partial name="_ReviewPartial" model="Model.ReviewForm" />
     </div>
 </div>
 
@@ -89,17 +87,10 @@
             </div>
             <div class="review-stars">
                 @*@for (var i = 1; i <= review.Rate; i++) {<i class="fas fa-star"></i>}*@
-
                 @for (var i = 1; i <= 5; i++) {
-
-                    @if (i <= review.Rate) {
-                        <i class="fas fa-star yellow"></i>
-                    }
-                    else {
-                        <i class="fas fa-star grey"></i>
-                    }
+                    @if (i <= review.Rate) {  <i class="fas fa-star yellow"></i> }
+                    else { <i class="fas fa-star grey"></i> }
                 }
-
             </div>
             <div class="review-text">
                 @(review.Text)

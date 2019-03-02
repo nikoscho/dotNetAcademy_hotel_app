@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 
 namespace dotNetAcademy.ViewModels {
-    public class ReviewViewModel {
+    public class ReviewFormViewModel {
         [Display(Name = "Rate")]
         public int Rate { get; set; }
         [Display(Name = "Text")]
