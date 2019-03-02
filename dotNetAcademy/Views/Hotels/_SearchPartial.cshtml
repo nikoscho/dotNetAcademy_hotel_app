@@ -8,7 +8,7 @@
     var roomTypes = ViewData["RoomTypes"] as IEnumerable<RoomType>;
 }
 
-<form action='@Url.Action("Search", "Hotels", null, null)' onsubmit="return formValidation()" autocomplete="off">
+<form method="get" asp-controller="Hotels" asp-action="Search" onsubmit="return formValidation()" autocomplete="off">
     <div class="search-box form-primary">
 
         <select id="city"

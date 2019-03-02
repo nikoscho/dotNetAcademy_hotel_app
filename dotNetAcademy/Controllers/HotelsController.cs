@@ -75,8 +75,10 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpGet]
-        public IActionResult Room(int? id)
+        public IActionResult Room(int id)
         {
+            ViewData["RoomId"] = id;
+
             Room room = db.Room
                 .Include( r => r.RoomType)
                 .Include( r => r.Reviews)
@@ -84,10 +86,29 @@ namespace dotNetAcademy.Controllers
                     r => r.RoomId == id
                 ).SingleOrDefault();
 
-            //room.Rate = (int) db.Room
-            //    .Include(r => r.Reviews).Average(r => r.Rate);
+            RoomViewModel model = new RoomViewModel {
+                Room = room,
+                Review = new ReviewViewModel()
+            };
 
-            return View(room);
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Review(int id, ReviewViewModel review) {
+
+            Reviews review_obj = new Reviews {
+                RoomId = id,
+                Rate = review.Rate,
+                Text = review.Text,
+                UserId = 1
+            };
+
+            db.Reviews.Add(review_obj);
+            db.SaveChanges();
+
+
+            return RedirectToAction("Room", "Hotels", new { id = id });
         }
     }
 }

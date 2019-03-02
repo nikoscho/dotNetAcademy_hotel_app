@@ -1,25 +1,23 @@
 ﻿
 $(function () {
 
-    $('#checkin').datepicker();
-    $('#checkout').datepicker();
-
-    $('#checkin').datepicker({
+    var checkin = $('#checkin').datepicker({
         language: 'en',
         dateFormat: 'dd/mm/yyyy',
-        minDate: new Date(),
-        Date: query_checkin
-    })
+        minDate: new Date()
+    }).data('datepicker');
 
 
-    $('#checkout').datepicker({
+    var checkout = $('#checkout').datepicker({
         language: 'en',
         dateFormat: 'dd/mm/yyyy',
-        minDate: new Date(),
-        date: query_checkout
-    })
+        minDate: new Date()
+    }).data('datepicker');
 
-
+    //checkin.selectDate(new Date(query_checkin));
+    //checkout.selectDate(new Date(query_checkout));
+    //checkin.selectDate(Date.parse(query_checkin));
+    //checkout.selectDate(Date.parse(query_checkout));
 });
 
 
