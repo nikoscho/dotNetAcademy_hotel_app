@@ -2,8 +2,8 @@
 @*@model IEnumerable<Room>*@
 @model dotNetAcademy.ViewModels.SearchViewModel
 
-@{ ViewData["Title"] = "Search";
-    Layout = "~/Views/Shared/_MainLayout.cshtml";
+@{ 
+    ViewData["Title"] = "Search";
 
     var cities = ViewData["Cities"] as IEnumerable<string>;
     var roomTypes = ViewData["RoomTypes"] as IEnumerable<RoomType>;
@@ -38,7 +38,8 @@
         }
         else {
             @foreach (var room in Model.Rooms) {
-                <a class="card-link" href='@Url.Action("Room", "Hotels", new { id=room.RoomId}, null)'>
+                @*<a class="card-link" href='@Url.Action("Room", "Hotels", new { id=room.RoomId}, null)'>*@
+                <a class="card-link" asp-controller="Hotels" asp-action="Room" asp-route-id="@room.RoomId" asp-route-checkin='@Context.Request.Query["CheckIn"][0]' asp-route-checkout='@Context.Request.Query["CheckOut"][0]'>
                     <div class="hotel-card">
                         <div class="card-image" style="background-image: url(/img/@(room.Photo));"></div>
                         <div class="card-content">

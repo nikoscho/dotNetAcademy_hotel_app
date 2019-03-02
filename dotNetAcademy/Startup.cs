@@ -59,7 +59,7 @@ namespace dotNetAcademy
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Hotels}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
                     //template: "{controller=Home}/{action=Index}/{id?}");
             });
         }

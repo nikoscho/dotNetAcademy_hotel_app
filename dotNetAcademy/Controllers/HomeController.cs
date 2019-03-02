@@ -5,36 +5,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using dotNetAcademy.Models;
+using dotNetAcademy.ViewModels;
 
 namespace dotNetAcademy.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
-        {
+        private readonly WdaContext db;
+
+        public HomeController(WdaContext db) {
+            this.db = db;
+        }
+
+        [HttpGet]
+        public IActionResult Index() {
+            ViewData["Cities"] = db.Room.Select(r => r.City).Distinct();
+            ViewData["RoomTypes"] = db.RoomType;
+
             return View();
         }
 
         public IActionResult Login() {
-            return View();
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
             return View();
         }
 
