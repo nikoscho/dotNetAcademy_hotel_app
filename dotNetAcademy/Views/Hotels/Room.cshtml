@@ -1,7 +1,7 @@
 ﻿@model dotNetAcademy.ViewModels.RoomViewModel
 
 @{
-    ViewData["Title"] = "Room";
+    ViewData["Title"] = Model.Room.Name;
 }
 
 
@@ -21,7 +21,7 @@
 <div class="room-header">
     <span class="room-title">@(Model.Room.Name)</span>
     <span class="room-location">@(Model.Room.Location), @(Model.Room.Area), @(Model.Room.City)</span>
-    <span class="room-rate">@Model.Room.Reviews.Select(x => x.Rate).DefaultIfEmpty(0).Average().ToString("0.0")</span>
+    @*<span class="room-rate">@Model.Room.Reviews.Select(x => x.Rate).DefaultIfEmpty(0).Average().ToString("0.0")</span>*@
     <span class="room-pricing"><span class="card-amount">@(Model.Room.Price) &euro;</span> / per night</span>
 </div>
 <div class="room-image">
@@ -31,6 +31,10 @@
 <div class="room-inpage-title">Features</div>
 
 <div class="room-features">
+    @*<div class="room-feature">
+        <i class="fas fa-money-bill"></i>
+        <span> @(Model.Room.Price) &euro; / per night</span>
+    </div>*@
     <div class="room-feature">
         <i class="fas fa-hotel"></i>
         <span> @(Model.Room.RoomType.RoomType1)</span>
@@ -65,11 +69,39 @@
     @(Model.Room.LongDescription)
 </div>
 
+<div class="room-booking">
+
+@if (Model.ShowBookingButton) {
+    if (!Model.IsAvailable) {
+        <form method="post" asp-controller="Hotels" asp-action="DeleteBooking" asp-route-id="@Model.Room.RoomId" autocomplete="off">
+            <input type="hidden" asp-for="BookingForm.CheckIn" value="@Model.Room.Bookings.ElementAt(0).CheckInDate" />
+            <input type="hidden" asp-for="BookingForm.CheckOut" value="@Model.Room.Bookings.ElementAt(0).CheckOutDate" />
+            <button class="btn btn-error" type="submit" value="Cancel Booking">
+                Cancel Booking:
+                @(DateTime.ParseExact(@Model.Room.Bookings.ElementAt(0).CheckInDate, "yyyy-mm-dd", null).Date.ToString("dd MMM yyyy") )
+                -
+                @(DateTime.ParseExact(@Model.Room.Bookings.ElementAt(0).CheckOutDate, "yyyy-mm-dd", null).Date.ToString("dd MMM yyyy"))
+            </button>
+        </form>
+    }else {
+        <form method="post" asp-controller="Hotels" asp-action="Book" asp-route-id="@Model.Room.RoomId" autocomplete="off">
+            <input type="hidden" asp-for="BookingForm.CheckIn" />
+            <input type="hidden" asp-for="BookingForm.CheckOut" />
+            <button class="btn btn-primary" type="submit" value="Book Now">
+                Book: @Context.Request.Query["CheckIn"][0] to @Context.Request.Query["CheckOut"][0]
+            </button>
+        </form>
+    }
+}
+</div>
+
 <div class="room-inpage-title">Location</div>
 
 <div id="map" class="room-map"></div>
 
-<div class="room-inpage-title">Reviews</div>
+<div class="room-inpage-title">
+    Reviews <span class="room-rate">- @Model.Room.Reviews.Select(x => x.Rate).DefaultIfEmpty(0).Average().ToString("0.0") <i class="fas fa-star yellow"></i></span>
+</div>
 
 <div class="room-add-review">
     <div class="col-left">
@@ -87,8 +119,8 @@
             <div class="review-stars">
                 @*@for (var i = 1; i <= review.Rate; i++) {<i class="fas fa-star"></i>}*@
                 @for (var i = 1; i <= 5; i++) {
-                    @if (i <= review.Rate) {  <i class="fas fa-star yellow"></i> }
-                    else { <i class="fas fa-star grey"></i> }
+                    @if (i <= review.Rate) {<i class="fas fa-star yellow"></i> }
+                    else { <i class="fas fa-star grey"></i>}
                 }
             </div>
             <div class="review-text">

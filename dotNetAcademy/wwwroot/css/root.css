@@ -19,6 +19,8 @@
     --main-accent-color-dark: #e67e22;
     --secondary-accent-color: #bbbbbb;
     --secondary-accent-color-dark: #aaaaaa;
+    --error-accent-color: #e74c3c;
+    --error-accent-color-dark: #c0392b;
     --disabled-color: #aaaaaa;
     --txt-font-family: 'Poppins', sans-serif;
 }

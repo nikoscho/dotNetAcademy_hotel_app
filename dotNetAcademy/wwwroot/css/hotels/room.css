@@ -33,11 +33,23 @@
     border-bottom: 1px solid #cccccc;
 }
 
+    .room-inpage-title .room-rate {
+        text-transform: uppercase;
+        font-size: 1em;
+    }
+
+
+i.yellow {
+    font-size: 0.9em;
+    display: inline;
+    color: #f1c40f;
+}
 
 /* ==========================================================================
    Header 
    ========================================================================== */
 .room-header {
+    margin: 15px 0 0 0;
     padding: 0px 5px;
     /*background-color: var(--main-accent-color);*/
 }
@@ -117,6 +129,9 @@
     font-size: 0.9em;
 }
 
+.room-booking {
+    margin: 15px 0;
+}
 
 /* ==========================================================================
    Reviews
@@ -143,7 +158,7 @@
     color: var(--main-accent-color);
 }
 .review-stars i.yellow {
-    color: var(--main-accent-color);
+    color: #f1c40f;
 }
 .review-stars i.grey {
     color: #dddddd;

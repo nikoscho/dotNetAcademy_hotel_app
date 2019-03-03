@@ -9,7 +9,8 @@ namespace dotNetAcademy.ViewModels {
         public Room Room;
         public ReviewFormModel ReviewForm;
         public BookingFormModel BookingForm;
-        public string CheckIn { get; set; }
-        public string CheckOut { get; set; }
+
+        public bool ShowBookingButton { get; set; }
+        public bool IsAvailable { get; set; }
     }
 }

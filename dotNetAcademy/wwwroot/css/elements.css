@@ -120,6 +120,7 @@ button.btn {
     letter-spacing: 1px;
     font-weight: normal !important;
     transition: box-shadow 0.2s;
+    cursor: pointer;
 }
 
 
@@ -150,6 +151,21 @@ button.btn {
 
     .btn-secondary:active {
         background-color: var(--secondary-accent-color-dark);
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+    }
+
+.btn-error {
+    background-color: var(--error-accent-color);
+    color: #ffffff;
+}
+
+    .btn-error:hover {
+        background-color: var(--error-accent-color-dark);
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    }
+
+    .btn-error:active {
+        background-color: var(--error-accent-color-dark);
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
     }
 

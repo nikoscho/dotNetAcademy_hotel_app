@@ -4,7 +4,6 @@
     ViewData["Title"] = "Profile";
 }
 
-
 @section Css {
     <link href="@Url.Content("~/css/home/profile.css")" rel="stylesheet" />
 }
@@ -17,31 +16,34 @@
     <h3> Favorites (@Model.Favorites.Count()) </h3>
     <div class="favorites-container">
         @if (!Model.Favorites.Any()) {
-            <span> No favorites !</span>
+            <span> No favorites </span>
         } else {
             @foreach (var favorite in Model.Favorites) {
-                <div class="favorite-card">
-                    <div class="favorite-name">@favorite.Room.Name</div>    
-                </div>
+                <a class="card-link" asp-controller="Hotels" asp-action="Room" asp-route-id="@favorite.RoomId">
+                    <div class="favorite-card">
+                        <div class="favorite-name">@favorite.Room.Name</div>    
+                    </div>
+                </a>
             }
         }
     </div>
     <h3> Reviews (@Model.Reviews.Count()) </h3>
     <div class="reviews-container">
         @if (!Model.Reviews.Any()) {
-            <span> No reviews !</span>
+            <span> No reviews </span>
         } else {
             @foreach (var review in Model.Reviews) {
-                <div class="review-card">
-                    <div class="review-name">@review.Room.Name</div>    
-                    <div class="review-stars">
-                        @*@for (var i = 1; i <= review.Rate; i++) {<i class="fas fa-star"></i>}*@
-                        @for (var i = 1; i <= 5; i++) {
-                            @if (i <= review.Rate) {  <i class="fas fa-star yellow"></i> }
-                            else { <i class="fas fa-star grey"></i> }
-                        }
+                <a class="card-link" asp-controller="Hotels" asp-action="Room" asp-route-id="@review.RoomId">
+                    <div class="review-card">
+                        <div class="review-name">@review.Room.Name</div>    
+                        <div class="review-stars">
+                            @for (var i = 1; i <= 5; i++) {
+                                @if (i <= review.Rate) {  <i class="fas fa-star yellow"></i> }
+                                else { <i class="fas fa-star grey"></i> }
+                            }
+                        </div>
                     </div>
-                </div>
+                </a>
             }
         }
     </div>
@@ -51,7 +53,7 @@
     <h3> Bookings (@Model.Rooms.Count()) </h3>
     <div class="cards-container-1c">
         @if (!Model.Rooms.Any()) {
-            <span> No booking !</span>
+            <span> No bookings </span>
         }
         else {
             @foreach (var room in Model.Rooms) {
@@ -66,14 +68,10 @@
                                 </div>
                                 <div class="card-rate">@room.Reviews.Select(x => x.Rate).DefaultIfEmpty(0).Average().ToString("0.0")<i class="fas fa-star"></i></div>
                             </div>
-
                             <div class="card-dates">
-                                @*@(room.Bookings.ElementAt(0).CheckInDate) - @(room.Bookings.ElementAt(0).CheckOutDate)*@
-
                                 @( DateTime.ParseExact(room.Bookings.ElementAt(0).CheckInDate, "yyyy-mm-dd", null).Date.ToString("dd MMM yyyy") )
                                 -
                                 @( DateTime.ParseExact(room.Bookings.ElementAt(0).CheckOutDate, "yyyy-mm-dd", null).Date.ToString("dd MMM yyyy") )
-                                @*@(room.ShortDescription)*@
                             </div>
                             <div class="card-row">
                                 <div class="card-type"><i class="fas fa-home"></i> @(room.RoomType.RoomType1)</div>

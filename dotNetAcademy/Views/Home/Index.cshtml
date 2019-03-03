@@ -1,8 +1,7 @@
 ﻿@model dotNetAcademy.ViewModels.RoomFiltersModel
 
 @{
-    ViewData["Title"] = "Index";
-
+    ViewData["Title"] = "Home";
 
     var cities = ViewData["Cities"] as IEnumerable<string>;
     var roomTypes = ViewData["RoomTypes"] as IEnumerable<RoomType>;
@@ -16,8 +15,6 @@
 @section Scripts {
     <script src="@Url.Content("~/js/home/index.js")"></script>
 }
-
-
 
 
 @*<form action='@Url.Action("Search", "Hotels", null, null)' onsubmit="return formIsValid()">*@

@@ -71,7 +71,7 @@ namespace dotNetAcademy.Controllers
                 FilterModel = new RoomFiltersModel {
                         CheckIn = filters.CheckIn,
                         CheckOut = filters.CheckOut
-                }
+                },
             };
 
             return View(model);
@@ -83,16 +83,24 @@ namespace dotNetAcademy.Controllers
             ViewData["RoomId"] = id;
 
             Room room = db.Room
-                .Include( r => r.RoomType)
-                .Include( r => r.Reviews)
+                .Include( r => r.RoomType )
+                .Include( r => r.Reviews )
+                .Include( b => b.Bookings )
                 .Where(
                     r => r.RoomId == id
                 ).SingleOrDefault();
 
+            var bookings = db.Bookings.Where(b =>
+                b.CheckInDate.CompareTo(booking.CheckOut) <= 0 &&
+                booking.CheckIn.CompareTo(b.CheckOutDate) <= 0 &&
+                b.RoomId == id);
+
             RoomViewModel model = new RoomViewModel {
                 Room = room,
                 ReviewForm = new ReviewFormModel(),
-                BookingForm = booking
+                BookingForm = booking,
+                ShowBookingButton = !string.IsNullOrEmpty(booking.CheckIn) && !string.IsNullOrEmpty(booking.CheckOut),
+                IsAvailable = !bookings.Any()
             };
 
             return View(model);
@@ -142,18 +150,45 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpPost]
-        public IActionResult Book(int id, BookingFormModel booking) {
+        public IActionResult Book(int id, BookingFormModel BookingForm) {
 
             db.Bookings.Add(new Bookings {
-                CheckInDate = booking.CheckIn,
-                CheckOutDate = booking.CheckOut,
+                CheckInDate = BookingForm.CheckIn,
+                CheckOutDate = BookingForm.CheckOut,
                 DateCreated = DateTime.Now,
                 RoomId = id,
                 UserId = 1,
             });
             db.SaveChanges();
 
-            return RedirectToAction("Room", "Hotels", new { id });
+            //return RedirectToAction("Room", "Hotels", new { id });
+            return RedirectToAction("Room", "Hotels", new { id, BookingForm.CheckIn, BookingForm.CheckOut });
+        }
+
+        //[HttpDelete, ActionName("Book")]
+        //public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
+        [HttpPost]
+        public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
+
+            try {
+                var booking = db.Bookings.FirstOrDefault( b =>
+                       b.RoomId == id
+                       && b.CheckInDate == BookingForm.CheckIn
+                       && b.CheckOutDate == BookingForm.CheckOut
+                       && b.UserId == 1
+                    );
+
+                if (booking != null) {
+                    db.Bookings.Remove(booking);
+                    db.SaveChanges();
+                }
+            }
+            catch {
+                return RedirectToAction("Room", "Hotels", new { id, BookingForm.CheckIn, BookingForm.CheckOut });
+                //return RedirectToAction("Room", "Hotels", new { id });
+            }
+
+            return RedirectToAction("Room", "Hotels", new { id, BookingForm.CheckIn, BookingForm.CheckOut });
         }
     }
 }
