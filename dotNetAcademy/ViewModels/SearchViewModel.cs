@@ -7,7 +7,7 @@ using dotNetAcademy.Models;
 
 namespace dotNetAcademy.ViewModels {
     public class SearchViewModel {
-        public RoomFiltersViewModel FilterModel;
+        public RoomFiltersModel FilterModel;
         public IEnumerable<Room> Rooms;
     }
 }

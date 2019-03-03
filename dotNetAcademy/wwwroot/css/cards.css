@@ -15,15 +15,11 @@ a.card-link {
 }
 
 .hotel-card {
-    /*min-height: 100%;*/
-    /*margin: 15px;*/
     border: 1px solid #cccccc;
     font-size: 0.9em;
     display: flex;
     flex-direction: row;
-    /*display: grid;*/
-    /*grid-template-columns: 200px auto;*/
-    /*grid-template-rows: 200px;*/
+    position: relative;
 }
 
 
@@ -76,6 +72,35 @@ a.card-link {
         flex-direction: column;
     }
 }
+
+.card-favorite {
+    display: block;
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    color: rgba(200,200,200,0.5);
+    font-size: 2.0em;
+    transition: color 0.5s;
+    
+    /*width: 40px;
+    height: 40px;
+    line-height: 30px;
+    text-align: center;
+    background-color: white;
+    padding: 5px;
+    border-radius: 30px;*/
+}
+
+.card-favorite i {
+    text-shadow: -3px 0 #fff, 0 3px #fff, 3px 0 #fff, 0 -3px #fff;
+    /*line-height: 40px;*/
+}
+
+.card-favorite.checked {
+    color: #e74c3c;
+}
+
+
 
 .card-image {
     flex: 1;

@@ -30,7 +30,7 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpGet]
-        public IActionResult Search(RoomFiltersViewModel filters)
+        public IActionResult Search(RoomFiltersModel filters)
         {
             ViewData["Cities"] = db.Room.Select(r => r.City).Distinct();
             ViewData["RoomTypes"] = db.RoomType;
@@ -40,7 +40,7 @@ namespace dotNetAcademy.Controllers
                 //throw new ApplicationException("Invalid Filters");
 
             var rooms = db.Room
-                .Include(room => room.RoomType)
+                .Include( t => t.RoomType)
                 .Include(r => r.Reviews)
                 .Where( room =>
                        ( filters.RoomTypeId == null           || room.RoomTypeId == filters.RoomTypeId    )
@@ -58,24 +58,27 @@ namespace dotNetAcademy.Controllers
             //    rooms = rooms.Where(room => room.RoomTypeId == filters.RoomTypeId);
 
             if (!string.IsNullOrEmpty(filters.CheckIn) && !string.IsNullOrEmpty(filters.CheckOut) && filters.CheckIn.CompareTo(filters.CheckOut) <= 0) {
-
                 var bookings = db.Bookings
                     .Where(booking =>
                        booking.CheckInDate.CompareTo(filters.CheckOut) <= 0 &&
                        filters.CheckIn.CompareTo(booking.CheckOutDate) <= 0);
 
                 rooms = rooms.Where(i => !bookings.Any(b => b.RoomId == i.RoomId));
-
             }
 
-            SearchViewModel model = new SearchViewModel();
-            model.Rooms = rooms.AsEnumerable();
+            SearchViewModel model = new SearchViewModel {
+                Rooms = rooms.AsEnumerable(),
+                FilterModel = new RoomFiltersModel {
+                        CheckIn = filters.CheckIn,
+                        CheckOut = filters.CheckOut
+                }
+            };
 
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult Room(int id)
+        public IActionResult Room(int id, BookingFormModel booking)
         {
             ViewData["RoomId"] = id;
 
@@ -88,14 +91,15 @@ namespace dotNetAcademy.Controllers
 
             RoomViewModel model = new RoomViewModel {
                 Room = room,
-                ReviewForm = new ReviewFormViewModel()
+                ReviewForm = new ReviewFormModel(),
+                BookingForm = booking
             };
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Review(int id, ReviewFormViewModel review) {
+        public IActionResult SubmitReview(int id, ReviewFormModel review) {
 
             Reviews review_obj = new Reviews {
                 RoomId = id,
@@ -105,6 +109,48 @@ namespace dotNetAcademy.Controllers
             };
 
             db.Reviews.Add(review_obj);
+            db.SaveChanges();
+
+            return RedirectToAction("Room", "Hotels", new { id });
+        }
+
+        [HttpPost]
+        public IActionResult ToggleFavorite(int id, ToggleFavoriteForm favoriteform) {
+
+            try {
+                var favorite = db.Favorites.FirstOrDefault(fav => fav.RoomId == id && fav.UserId == favoriteform.UserId);
+
+                if (favorite == null) {
+                    db.Favorites.Add(new Favorites {
+                        RoomId = id,
+                        UserId = favoriteform.UserId,
+                        Status = 1,
+                        DateCreated = DateTime.Now,
+                    });
+                    db.SaveChanges();
+                } else {
+                    db.Favorites.Remove(favorite);
+                    db.SaveChanges();
+                    return Json(false);
+                }
+
+                return Json(true);
+            }
+            catch {
+                return Json(false);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Book(int id, BookingFormModel booking) {
+
+            db.Bookings.Add(new Bookings {
+                CheckInDate = booking.CheckIn,
+                CheckOutDate = booking.CheckOut,
+                DateCreated = DateTime.Now,
+                RoomId = id,
+                UserId = 1,
+            });
             db.SaveChanges();
 
             return RedirectToAction("Room", "Hotels", new { id });

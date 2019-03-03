@@ -23,6 +23,7 @@ namespace dotNetAcademy.Models
         public int PetFriendly { get; set; }
 
         public ICollection<Reviews> Reviews { get; set; }
+        public ICollection<Favorites> Favorites { get; set; }
 
     }
 }

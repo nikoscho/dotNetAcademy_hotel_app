@@ -19,6 +19,16 @@ $(function () {
     if (query_checkout)
         checkout.selectDate(new Date(query_checkout));
 
+
+    $('.card-favorite').on('click', function (event) {
+        console.log("clicked_favorite");
+
+        toggleFavoriteRequest($(this).data("href"), 1, $(this));
+        event.stopImmediatePropagation();
+        event.preventDefault();
+    });
+
+
 });
 
 

@@ -1,14 +1,10 @@
-﻿@model dotNetAcademy.ViewModels.ReviewFormViewModel
-
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model dotNetAcademy.ViewModels.ReviewFormModel
 
 @{ 
     var roomId = (int)ViewData["RoomId"];
 }
 
-<form method="post" asp-controller="Hotels" asp-action="Review" asp-route-id="@roomId" onsubmit="" autocomplete="off">
+<form method="post" asp-controller="Hotels" asp-action="SubmitReview" asp-route-id="@roomId" onsubmit="" autocomplete="off">
     <div class="form-primary">
 
         <textarea id="text"

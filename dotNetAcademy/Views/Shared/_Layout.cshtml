@@ -32,7 +32,6 @@
 
     @RenderSection("Css", false)
 
-
 </head>
 
 <body>
@@ -48,9 +47,9 @@
         </div>
         <input type="checkbox" id="nav-check">
         <div class="nav-links">
-            <a href='@Url.Action("Index", "Home", null, null)'>Home</a>
-            <a href='@Url.Action("Index", "Home", null, null)'>Profile</a>
-            <a href='@Url.Action("Login", "Home", null, null)'>Login</a>
+            <a asp-controller="Home" asp-action="Index">Home</a>
+            <a asp-controller="Home" asp-action="Index">Profile</a>
+            <a asp-controller="Home" asp-action="Login">Login</a>
         </div>
     </nav>
 
@@ -76,9 +75,9 @@
     <script type="text/javascript" src="~/lib/air-datepicker/dist/js/datepicker.js"></script>
     <script type="text/javascript" src="~/lib/air-datepicker/dist/js/i18n/datepicker.en.js"></script>
 
+    <script src="@Url.Content("~/js/base.js")"></script>
 
     @RenderSection("Scripts", false)
-
 
 </body>
 </html>
