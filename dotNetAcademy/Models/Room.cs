@@ -24,6 +24,7 @@ namespace dotNetAcademy.Models
 
         public ICollection<Reviews> Reviews { get; set; }
         public ICollection<Favorites> Favorites { get; set; }
+        public ICollection<Bookings> Bookings { get; set; }
 
     }
 }

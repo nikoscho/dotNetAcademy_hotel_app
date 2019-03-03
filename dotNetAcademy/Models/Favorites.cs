@@ -12,5 +12,6 @@ namespace dotNetAcademy.Models
         public int RoomId { get; set; }
 
         public User User{ get; set; }
+        public Room Room{ get; set; }
     }
 }
