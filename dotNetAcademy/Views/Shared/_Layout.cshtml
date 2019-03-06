@@ -48,8 +48,14 @@
         <input type="checkbox" id="nav-check">
         <div class="nav-links">
             <a asp-controller="Home" asp-action="Index">Home</a>
-            <a asp-controller="Home" asp-action="Profile">Profile</a>
-            <a asp-controller="Home" asp-action="Login">Login</a>
+            @if (User.Identity.IsAuthenticated) {
+                <a asp-controller="Home" asp-action="Profile">Profile</a>
+            }
+            @if (User.Identity.IsAuthenticated) {
+                <a asp-controller="User" asp-action="Logout">Logout</a>
+            } else {
+                <a asp-controller="Home" asp-action="Login">Login</a>
+            }
         </div>
     </nav>
 

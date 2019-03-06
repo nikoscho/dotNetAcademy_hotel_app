@@ -1,4 +1,4 @@
-﻿@model dotNetAcademy.ViewModels.RoomFiltersModel
+﻿@model dotNetAcademy.ViewModels.LoginViewModel
 
 @{
     ViewData["Title"] = "Login";
@@ -16,16 +16,19 @@
 
 
 @*<form action='@Url.Action("Search", "Hotels", null, null)' onsubmit="return formIsValid()">*@
-    <form method="get" onsubmit="return formIsValid()">
+@*<form method="get" onsubmit="return formIsValid()">*@
+    <form method="post" asp-controller="User" asp-action="Login" onsubmit="return formIsValid()">
         <div class="login-box form-primary">
 
             <input id="username"
-                   type='username'
+                   type='text'
+                   asp-for="Username"
                    placeholder="username"
                    autocomplete="off" />
 
             <input id="passoword"
                    type='password'
+                   asp-for="Password"
                    placeholder="password"
                    autocomplete="off" />
 

@@ -4,27 +4,29 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using dotNetAcademy.Models;
 using dotNetAcademy.ViewModels;
-
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace dotNetAcademy.Controllers
 {
     public class HotelsController : Controller
     {
-        private readonly WdaContext db;
+        private readonly WdaContext _db;
+        private readonly SignInManager<User> _signInManager;
 
-        public HotelsController(WdaContext db)
+        public HotelsController(WdaContext db, SignInManager<User> signInManager)
         {
-            this.db = db;
+            this._db = db;
+            this._signInManager = signInManager;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            ViewData["Cities"] = db.Room.Select(r => r.City).Distinct();
-            ViewData["RoomTypes"] = db.RoomType;
+            ViewData["Cities"] = _db.Room.Select(r => r.City).Distinct();
+            ViewData["RoomTypes"] = _db.RoomType;
 
             return View();
         }
@@ -32,14 +34,14 @@ namespace dotNetAcademy.Controllers
         [HttpGet]
         public IActionResult Search(RoomFiltersModel filters)
         {
-            ViewData["Cities"] = db.Room.Select(r => r.City).Distinct();
-            ViewData["RoomTypes"] = db.RoomType;
+            ViewData["Cities"] = _db.Room.Select(r => r.City).Distinct();
+            ViewData["RoomTypes"] = _db.RoomType;
 
             if (!ModelState.IsValid)
                 return Redirect(Request.Headers["Referer"].ToString());
                 //throw new ApplicationException("Invalid Filters");
 
-            var rooms = db.Room
+            var rooms = _db.Room
                 .Include( t => t.RoomType)
                 .Include(r => r.Reviews)
                 .Where( room =>
@@ -49,7 +51,7 @@ namespace dotNetAcademy.Controllers
 
 
 
-            //var rooms = db.Room.Include(room => room.RoomType).AsQueryable();
+            //var rooms = _db.Room.Include(room => room.RoomType).AsQueryable();
 
             //if (!string.IsNullOrEmpty(filters.City))
             //    rooms = rooms.Where(room => room.City == filters.City);
@@ -58,7 +60,7 @@ namespace dotNetAcademy.Controllers
             //    rooms = rooms.Where(room => room.RoomTypeId == filters.RoomTypeId);
 
             if (!string.IsNullOrEmpty(filters.CheckIn) && !string.IsNullOrEmpty(filters.CheckOut) && filters.CheckIn.CompareTo(filters.CheckOut) <= 0) {
-                var bookings = db.Bookings
+                var bookings = _db.Bookings
                     .Where(booking =>
                        booking.CheckInDate.CompareTo(filters.CheckOut) <= 0 &&
                        filters.CheckIn.CompareTo(booking.CheckOutDate) <= 0);
@@ -82,7 +84,7 @@ namespace dotNetAcademy.Controllers
         {
             ViewData["RoomId"] = id;
 
-            Room room = db.Room
+            Room room = _db.Room
                 .Include( r => r.RoomType )
                 .Include( r => r.Reviews )
                 .Include( b => b.Bookings )
@@ -90,7 +92,7 @@ namespace dotNetAcademy.Controllers
                     r => r.RoomId == id
                 ).SingleOrDefault();
 
-            var bookings = db.Bookings.Where(b =>
+            var bookings = _db.Bookings.Where(b =>
                 b.CheckInDate.CompareTo(booking.CheckOut) <= 0 &&
                 booking.CheckIn.CompareTo(b.CheckOutDate) <= 0 &&
                 b.RoomId == id);
@@ -116,8 +118,8 @@ namespace dotNetAcademy.Controllers
                 UserId = 1
             };
 
-            db.Reviews.Add(review_obj);
-            db.SaveChanges();
+            _db.Reviews.Add(review_obj);
+            _db.SaveChanges();
 
             return RedirectToAction("Room", "Hotels", new { id });
         }
@@ -126,19 +128,19 @@ namespace dotNetAcademy.Controllers
         public IActionResult ToggleFavorite(int id, ToggleFavoriteForm favoriteform) {
 
             try {
-                var favorite = db.Favorites.FirstOrDefault(fav => fav.RoomId == id && fav.UserId == favoriteform.UserId);
+                var favorite = _db.Favorites.FirstOrDefault(fav => fav.RoomId == id && fav.UserId == favoriteform.UserId);
 
                 if (favorite == null) {
-                    db.Favorites.Add(new Favorites {
+                    _db.Favorites.Add(new Favorites {
                         RoomId = id,
                         UserId = favoriteform.UserId,
                         Status = 1,
                         DateCreated = DateTime.Now,
                     });
-                    db.SaveChanges();
+                    _db.SaveChanges();
                 } else {
-                    db.Favorites.Remove(favorite);
-                    db.SaveChanges();
+                    _db.Favorites.Remove(favorite);
+                    _db.SaveChanges();
                     return Json(false);
                 }
 
@@ -152,14 +154,16 @@ namespace dotNetAcademy.Controllers
         [HttpPost]
         public IActionResult Book(int id, BookingFormModel BookingForm) {
 
-            db.Bookings.Add(new Bookings {
+            var useid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
+
+            _db.Bookings.Add(new Bookings {
                 CheckInDate = BookingForm.CheckIn,
                 CheckOutDate = BookingForm.CheckOut,
                 DateCreated = DateTime.Now,
                 RoomId = id,
-                UserId = 1,
+                UserId = useid,
             });
-            db.SaveChanges();
+            _db.SaveChanges();
 
             //return RedirectToAction("Room", "Hotels", new { id });
             return RedirectToAction("Room", "Hotels", new { id, BookingForm.CheckIn, BookingForm.CheckOut });
@@ -170,8 +174,10 @@ namespace dotNetAcademy.Controllers
         [HttpPost]
         public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
 
+
+
             try {
-                var booking = db.Bookings.FirstOrDefault( b =>
+                var booking = _db.Bookings.FirstOrDefault( b =>
                        b.RoomId == id
                        && b.CheckInDate == BookingForm.CheckIn
                        && b.CheckOutDate == BookingForm.CheckOut
@@ -179,8 +185,8 @@ namespace dotNetAcademy.Controllers
                     );
 
                 if (booking != null) {
-                    db.Bookings.Remove(booking);
-                    db.SaveChanges();
+                    _db.Bookings.Remove(booking);
+                    _db.SaveChanges();
                 }
             }
             catch {
