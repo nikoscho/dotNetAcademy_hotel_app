@@ -19,10 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Home\Login.cshtml">
+    <Content Update="Views\User\Login.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Home\Profile.cshtml">
+    <Content Update="Views\User\Profile.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

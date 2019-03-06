@@ -55,6 +55,11 @@ nav.navbar {
                 color: #e67e22;
             }
 
+            nav.navbar > .nav-links > a.active {
+                color: #e67e22;
+                font-weight: bold;
+            }
+
     nav.navbar > #nav-check {
         display: none;
     }
