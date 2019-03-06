@@ -8,7 +8,6 @@ using dotNetAcademy.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -29,8 +28,8 @@ namespace dotNetAcademy.Controllers
             return View();
         }
 
-        [HttpPost, ActionName("Login")]
-        public IActionResult SignIn(LoginViewModel model)
+        [HttpPost]
+        public IActionResult Login(LoginViewModel model)
         {
             if (ModelState.IsValid) {
 
@@ -50,7 +49,7 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpGet]
-        public IActionResult Logout() {
+        public IActionResult Logout() { 
 
             if (ModelState.IsValid) {
                 var result = _signInManager.SignOutAsync();
@@ -59,6 +58,7 @@ namespace dotNetAcademy.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [HttpGet]
         [Authorize]
         public IActionResult Profile() {
 
@@ -66,32 +66,17 @@ namespace dotNetAcademy.Controllers
 
             var useid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
 
-            var rooms = _db.Room
-            .Include(t => t.RoomType)
-            .Include(r => r.Reviews)
-            .Include(b => b.Bookings)
-            .AsQueryable();
+            var user = _db.User
+                .Include(r => r.Reviews)
+                    .ThenInclude(r => r.Room)
+                .Include(r => r.Favorites)
+                    .ThenInclude(r => r.Room)
+                .Include(b => b.Bookings)
+                    .ThenInclude(r => r.Room)
+                        .ThenInclude(t => t.RoomType)
+                .Where(o => o.UserId == useid).SingleOrDefault();
 
-            var user_bookings = _db.Bookings
-                .Where(booking => booking.UserId == useid).AsQueryable();
-
-            rooms = rooms.Where(i => user_bookings.Any(b => b.RoomId == i.RoomId));
-
-            var favorites = _db.Favorites
-                .Include(t => t.Room)
-                .Where(o => o.UserId == useid);
-
-            var reviews = _db.Reviews
-                .Include(t => t.Room)
-                .Where(o => o.UserId == useid);
-
-            ProfileViewModel model = new ProfileViewModel {
-                Rooms = rooms.AsEnumerable(),
-                Reviews = reviews,
-                Favorites = favorites,
-            };
-
-            return View(model);
+            return View(user);
         }
     }
 

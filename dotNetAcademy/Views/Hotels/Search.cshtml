@@ -18,8 +18,10 @@
 
 
     <script>
-        var query_checkin = '@Context.Request.Query["CheckIn"][0]';
-        var query_checkout = '@Context.Request.Query["CheckOut"][0]';
+        @*var query_checkin = '@Context.Request.Query["CheckIn"][0]';
+        var query_checkout = '@Context.Request.Query["CheckOut"][0]';*@
+        var query_checkin = '@Model.FilterModel.CheckIn';
+        var query_checkout = '@Model.FilterModel.CheckOut';
     </script>
 
 }

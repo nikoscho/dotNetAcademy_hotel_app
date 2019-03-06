@@ -28,11 +28,10 @@ namespace dotNetAcademy.Controllers
             ViewData["Cities"] = _db.Room.Select(r => r.City).Distinct();
             ViewData["RoomTypes"] = _db.RoomType;
 
-            return View();
+            RoomFiltersModel model = TempData["RoomFilters"] as RoomFiltersModel;
+
+            return View(model);
         }
-
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

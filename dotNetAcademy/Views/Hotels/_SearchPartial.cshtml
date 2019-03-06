@@ -29,27 +29,32 @@
         </select>
 
         @*<input id="das"
-                   type="number" />
-            <input id="tre"
-                   type="number" />*@
+               type="number" />
+        <input id="tre"
+               type="number" />*@
 
         <input id="checkin"
                class='datepicker-here'
                type='text'
                asp-for="CheckIn"
                data-language='en'
-               placeholder="Check In"
-               />
+               placeholder="Check In" />
 
         <input id="checkout"
                class='datepicker-here'
                type='text'
                asp-for="CheckOut"
                data-language='en'
-               placeholder="Check Out"
-               />
+               placeholder="Check Out" />
 
         <button class="btn btn-primary" type="submit" value="Submit">Search</button>
+
+        <div id="search-errors">
+            <span asp-validation-for="City"></span>
+            <span asp-validation-for="RoomTypeId"></span>
+            <span asp-validation-for="CheckIn"></span>
+            <span asp-validation-for="CheckOut"></span>
+        </div>
 
     </div>
 </form>

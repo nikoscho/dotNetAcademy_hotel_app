@@ -8,6 +8,8 @@ using dotNetAcademy.Models;
 using dotNetAcademy.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace dotNetAcademy.Controllers
 {
@@ -37,9 +39,12 @@ namespace dotNetAcademy.Controllers
             ViewData["Cities"] = _db.Room.Select(r => r.City).Distinct();
             ViewData["RoomTypes"] = _db.RoomType;
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid) {
+                //Save you object
+                TempData["RoomFilters"] = filters;
                 return Redirect(Request.Headers["Referer"].ToString());
                 //throw new ApplicationException("Invalid Filters");
+            }
 
             var rooms = _db.Room
                 .Include( t => t.RoomType)
@@ -109,6 +114,7 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult SubmitReview(int id, ReviewFormModel review) {
 
             Reviews review_obj = new Reviews {
@@ -125,7 +131,9 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult ToggleFavorite(int id, ToggleFavoriteForm favoriteform) {
+            var useid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
 
             try {
                 var favorite = _db.Favorites.FirstOrDefault(fav => fav.RoomId == id && fav.UserId == favoriteform.UserId);
@@ -152,6 +160,7 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Book(int id, BookingFormModel BookingForm) {
 
             var useid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
@@ -172,6 +181,7 @@ namespace dotNetAcademy.Controllers
         //[HttpDelete, ActionName("Book")]
         //public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
         [HttpPost]
+        [Authorize]
         public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
 
 
