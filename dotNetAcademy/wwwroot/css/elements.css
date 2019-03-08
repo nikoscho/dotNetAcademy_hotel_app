@@ -39,6 +39,23 @@
     box-shadow: none;
 }
 
+.form-primary div.inp-primary {
+    box-sizing: border-box;
+    outline: none;
+    height: 40px;
+    font-family: var(--txt-font-family);
+    font-size: 1em;
+    text-align: center;
+    text-align-last: center;
+    border: none;
+    padding: 0 15px;
+    border-radius: 3px;
+    font-family: var(--txt-font-family);
+    font-size: 1em;
+    color: var(--main-txt-color);
+    background-color: #ffffff;
+    box-shadow: none;
+}
 
 .form-primary input:hover,
 .form-primary textarea:hover,
@@ -94,18 +111,21 @@
     color: var(--disabled-txt-color);
 }
 
-.form-primary input.invalid-input,
-.form-primary textarea.invalid-input,
-.form-primary select.invalid-input {
-    /*border: 1px solid red;*/
-    box-shadow: 0 0 0 1px #e74c3c;
-}
+
 
 .form-primary select:disabled {
     color: var(--disabled-txt-color);
 }
 
 
+.form-primary input:read-only,
+.form-primary input:read-only:hover {
+    background-color: #cccccc;
+}
+
+/* ==========================================================================
+   Button
+   ========================================================================== */
 
 button.btn {
     box-sizing: border-box;
@@ -186,7 +206,30 @@ button.btn {
         box-shadow: none;
     }
 
+/* ==========================================================================
+   Errors
+   ========================================================================== */
 
+.form-primary input.invalid-input,
+.form-primary textarea.invalid-input,
+.form-primary select.invalid-input {
+    border: 1px solid #e74c3c;
+    /*box-shadow: 0 0 0 1px #e74c3c;*/
+    background-color: rgb(255,235,235);
+}
+
+.field-with-error {
+}
+
+
+.form-primary .field-with-error > * {
+    width: 100%;
+}
+
+.field-error-msg > span {
+    font-size: 0.7em;
+    color: #e74c3c;
+}
 
 /* ==========================================================================
    Rating

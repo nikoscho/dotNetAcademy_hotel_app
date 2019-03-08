@@ -18,54 +18,67 @@
 
 
 @*<form action='@Url.Action("Search", "Hotels", null, null)' onsubmit="return formIsValid()">*@
-<form method="get" asp-controller="Hotels" asp-action="Search" onsubmit="return formIsValid()">
+<form method="get" asp-controller="Hotels" asp-action="Search" onsubmit="return formValidation()">
     <div class="search-box form-primary">
 
-        <div id="search-errors">
-            <span asp-validation-for="City"></span>
-            <span asp-validation-for="RoomTypeId"></span>
-            <span asp-validation-for="CheckIn"></span>
-            <span asp-validation-for="CheckOut"></span>
+        <div class="field-with-error">
+            <select id="city"
+                    class="inp-primary"
+                    asp-for="City"
+                    asp-items="@(new SelectList(cities))">
+
+                <option value="" hidden disabled selected>
+                    @Html.DisplayNameFor(i => i.City)
+                </option>
+            </select>
+            <div class="field-error-msg">
+                <span id="city-error" asp-validation-for="City"></span>
+            </div>
         </div>
 
-        <select id="city"
-                class="inp-primary"
-                asp-for="City"
-                asp-items="@(new SelectList(cities))">
+        <div class="field-with-error">
+            <select id="roomtype"
+                    class="inp-primary"
+                    asp-for="RoomTypeId"
+                    asp-items="@(new SelectList(roomTypes, "Id", "RoomType1"))">
 
-            <option value="" hidden disabled selected>
-                @Html.DisplayNameFor(i => i.City)
-            </option>
+                <option value="" hidden disabled selected>
+                    @Html.DisplayNameFor(i => i.RoomTypeId)
+                </option>
 
-        </select>
+            </select>
+            <div class="field-error-msg">
+                <span id="roomtype-error" asp-validation-for="RoomTypeId"></span>
+            </div>
+        </div>
 
-        <select id="roomtype"
-                class="inp-primary"
-                asp-for="RoomTypeId"
-                asp-items="@(new SelectList(roomTypes, "Id", "RoomType1"))">
+        <div class="field-with-error">
 
-            <option value="" hidden disabled selected>
-                @Html.DisplayNameFor(i => i.RoomTypeId)
-            </option>
+            <input id="checkin"
+                   class='datepicker-here'
+                   type='text'
+                   asp-for="CheckIn"
+                   data-language='en'
+                   placeholder="@Html.DisplayNameFor(i => i.CheckIn)"
+                   autocomplete="off" />
+            <div class="field-error-msg">
+                <span id="checkin-error" asp-validation-for="CheckIn"></span>
+            </div>
+        </div>
 
-        </select>
-
-        <input id="checkin"
-               class='datepicker-here'
-               type='text'
-               asp-for="CheckIn"
-               data-language='en'
-               placeholder="@Html.DisplayNameFor(i => i.CheckIn)"
-               autocomplete="off" />
-
-        <input id="checkout"
-               class='datepicker-here'
-               type='text'
-               asp-for="CheckOut"
-               data-language='en'
-               placeholder="@Html.DisplayNameFor(i => i.CheckOut)"
-               autocomplete="off" />
-
+        <div class="field-with-error">
+            <input id="checkout"
+                   class='datepicker-here'
+                   type='text'
+                   asp-for="CheckOut"
+                   data-language='en'
+                   placeholder="@Html.DisplayNameFor(i => i.CheckOut)"
+                   autocomplete="off" />
+            <div class="field-error-msg">
+                <span id="checkout-error" asp-validation-for="CheckOut"></span>
+            </div>
+        </div>
+            
         <button class="btn btn-primary" type="submit" value="Submit">Search</button>
 
     </div>

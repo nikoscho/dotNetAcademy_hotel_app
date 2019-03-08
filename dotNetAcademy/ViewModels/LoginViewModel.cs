@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dotNetAcademy.ViewModels {
     public class LoginViewModel {
+
+        [Display(Name = "RememberMe")]
         internal bool RememberMe;
 
         [Display(Name = "Username")]
@@ -16,5 +18,6 @@ namespace dotNetAcademy.ViewModels {
         [Required(ErrorMessage = "Password required")]
         public string Password { get; set; }
 
+        internal string UrlToReturn;
     }
 }

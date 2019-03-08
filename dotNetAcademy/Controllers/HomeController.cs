@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using dotNetAcademy.Extensions;
 
 namespace dotNetAcademy.Controllers
 {
@@ -28,9 +31,14 @@ namespace dotNetAcademy.Controllers
             ViewData["Cities"] = _db.Room.Select(r => r.City).Distinct();
             ViewData["RoomTypes"] = _db.RoomType;
 
-            RoomFiltersModel model = TempData["RoomFilters"] as RoomFiltersModel;
 
-            return View(model);
+            //ViewData["ModelState"] = TempData.Get<ModelStateDictionary>("ModelState");
+            if ( TempData["ViewData"] != null )
+                ViewData = TempData.Get<ViewDataDictionary>("ViewData");
+
+            //RoomFiltersModel model = TempData["RoomFilters"] as RoomFiltersModel;
+
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

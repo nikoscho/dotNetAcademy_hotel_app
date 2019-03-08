@@ -16,6 +16,8 @@
     <!-- Air Datepicker -->
     <link rel="stylesheet" type="text/css" href="~/lib/air-datepicker/dist/css/datepicker.css" />
 
+    <!-- JQuery Ui -->
+    <link rel="stylesheet" type="text/css" href="~/lib/jquery-ui-1.12.1.custom/jquery-ui.min.css"/>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/css/root.css" />
@@ -53,7 +55,8 @@
             }
             @if (User.Identity.IsAuthenticated) {
                 <a asp-controller="User" asp-action="Logout">Logout</a>
-            } else {
+            }
+            else {
                 <a class='@(ViewContext.RouteData.Values["Action"].ToString() == "Login" ? "active" : "")' asp-controller="User" asp-action="Login">Login</a>
             }
         </div>
@@ -80,6 +83,9 @@
     <!-- Air Datepicker -->
     <script type="text/javascript" src="~/lib/air-datepicker/dist/js/datepicker.js"></script>
     <script type="text/javascript" src="~/lib/air-datepicker/dist/js/i18n/datepicker.en.js"></script>
+
+    <!-- JQuery Ui -->
+    <script type="text/javascript" src="~/lib/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 
     <script src="@Url.Content("~/js/base.js")"></script>
 

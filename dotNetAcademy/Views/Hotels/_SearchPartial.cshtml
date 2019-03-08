@@ -8,53 +8,101 @@
 <form method="get" asp-controller="Hotels" asp-action="Search" onsubmit="return formValidation()" autocomplete="off">
     <div class="search-box form-primary">
 
-        <select id="city"
-                class="inp-primary"
-                asp-for="City"
-                asp-items="@(new SelectList(cities))">
-            <option value="" hidden disabled selected>
-                City
-            </option>
+        <div class="field-with-error">
+            <select id="city"
+                    class="inp-primary"
+                    asp-for="City"
+                    asp-items="@(new SelectList(cities))">
 
-        </select>
+                <option value="" hidden disabled selected>
+                    @Html.DisplayNameFor(i => i.City)
+                </option>
+            </select>
+            <div class="field-error-msg">
+                <span id="city-error" asp-validation-for="City"></span>
+            </div>
+        </div>
 
-        <select id="roomtype"
-                class="inp-primary"
-                asp-for="RoomTypeId"
-                asp-items="@(new SelectList(roomTypes, "Id", "RoomType1"))">
-            <option value="" hidden disabled selected>
-                Room Type
-            </option>
+        <div class="field-with-error">
+            <select id="roomtype"
+                    class="inp-primary"
+                    asp-for="RoomTypeId"
+                    asp-items="@(new SelectList(roomTypes, "Id", "RoomType1"))">
 
-        </select>
+                <option value="" hidden disabled selected>
+                    @Html.DisplayNameFor(i => i.RoomTypeId)
+                </option>
 
-        @*<input id="das"
-               type="number" />
-        <input id="tre"
-               type="number" />*@
+            </select>
+            <div class="field-error-msg">
+                <span id="roomtype-error" asp-validation-for="RoomTypeId"></span>
+            </div>
+        </div>
 
-        <input id="checkin"
-               class='datepicker-here'
-               type='text'
-               asp-for="CheckIn"
-               data-language='en'
-               placeholder="Check In" />
+        <div class="field-with-error">
+            <select id="numberofguests"
+                    class="inp-primary"
+                    asp-for="NumberOfGuests">
+                <option value="" hidden disabled selected>
+                    @Html.DisplayNameFor(i => i.NumberOfGuests)
+                </option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+            </select>
+            <div class="field-error-msg">
+                <span id="city-error" asp-validation-for="NumberOfGuests"></span>
+            </div>
+        </div>
 
-        <input id="checkout"
-               class='datepicker-here'
-               type='text'
-               asp-for="CheckOut"
-               data-language='en'
-               placeholder="Check Out" />
+        <div class="field-slider-group">
+            <input id="amountmin"
+                   type="number"
+                   asp-for="AmountMin" hidden>
+            <input id="amountmax"
+                   type="number"
+                   asp-for="AmountMax" hidden>
+            <div class="slider-values">
+                <span class="min">min: <span class="amount"><span id="minamountdisplay">100</span>&euro;</span></span>
+                <span class="max">max: <span class="amount"><span id="maxamountdisplay">100</span>&euro;</span></span>
+            </div>
+            <div class="field-slider">
+                <div class="slider-box">
+                    <div id="slider-range"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="field-with-error">
+            <input id="checkin"
+                   class='datepicker-here'
+                   type='text'
+                   asp-for="CheckIn"
+                   data-language='en'
+                   placeholder="@Html.DisplayNameFor(i => i.CheckIn)"
+                   autocomplete="off" />
+            <div class="field-error-msg">
+                <span id="checkin-error" asp-validation-for="CheckIn"></span>
+            </div>
+        </div>
+
+        <div class="field-with-error">
+            <input id="checkout"
+                   class='datepicker-here'
+                   type='text'
+                   asp-for="CheckOut"
+                   data-language='en'
+                   placeholder="@Html.DisplayNameFor(i => i.CheckOut)"
+                   autocomplete="off" />
+            <div class="field-error-msg">
+                <span id="checkout-error" asp-validation-for="CheckOut"></span>
+            </div>
+        </div>
 
         <button class="btn btn-primary" type="submit" value="Submit">Search</button>
-
-        <div id="search-errors">
-            <span asp-validation-for="City"></span>
-            <span asp-validation-for="RoomTypeId"></span>
-            <span asp-validation-for="CheckIn"></span>
-            <span asp-validation-for="CheckOut"></span>
-        </div>
 
     </div>
 </form>

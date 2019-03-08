@@ -9,7 +9,8 @@ using dotNetAcademy.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using dotNetAcademy.Extensions;
 
 namespace dotNetAcademy.Controllers
 {
@@ -41,7 +42,10 @@ namespace dotNetAcademy.Controllers
 
             if (!ModelState.IsValid) {
                 //Save you object
-                TempData["RoomFilters"] = filters;
+                //TempData["ModelState"] = ModelState;
+                //TempData.Put("ModelState", ModelState);
+                TempData.Put("ViewData", ViewData);
+
                 return Redirect(Request.Headers["Referer"].ToString());
                 //throw new ApplicationException("Invalid Filters");
             }
@@ -75,10 +79,12 @@ namespace dotNetAcademy.Controllers
 
             SearchViewModel model = new SearchViewModel {
                 Rooms = rooms.AsEnumerable(),
-                FilterModel = new RoomFiltersModel {
-                        CheckIn = filters.CheckIn,
-                        CheckOut = filters.CheckOut
-                },
+                FilterModel = filters
+                //filters
+                //FilterModel = new RoomFiltersModel {
+                //        CheckIn = filters.CheckIn,
+                //        CheckOut = filters.CheckOut
+                //},
             };
 
             return View(model);
@@ -114,7 +120,7 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public IActionResult SubmitReview(int id, ReviewFormModel review) {
 
             Reviews review_obj = new Reviews {
@@ -131,7 +137,7 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public IActionResult ToggleFavorite(int id, ToggleFavoriteForm favoriteform) {
             var useid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
 
@@ -160,7 +166,7 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public IActionResult Book(int id, BookingFormModel BookingForm) {
 
             var useid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
@@ -181,7 +187,7 @@ namespace dotNetAcademy.Controllers
         //[HttpDelete, ActionName("Book")]
         //public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
 
 
