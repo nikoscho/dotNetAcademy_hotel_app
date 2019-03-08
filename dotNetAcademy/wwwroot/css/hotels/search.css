@@ -2,18 +2,19 @@
 #main-wrapper {
     width: 100%;
     max-width: 1280px;
-    /*max-width: 1140px;*/
     margin: 0 auto;
     display: flex;
 }
 
 .col-left {
     flex: 0;
+    min-width: 280px;
 }
 
 .col-right {
     flex: 1;
 }
+
 
 .search-box {
     padding: 15px;
@@ -24,154 +25,47 @@
     grid-gap: 5px;
 }
 
-/*.field-slider-group {
-    display: flex;
-    flex-direction: row;
-    grid-column: 1 / 4;
-    position: relative;
-}
 
-    .field-slider-group .field-amount-txt {
-        flex: 0;
-    }
 
-    .field-slider-group .field-slider {
-        margin-left: 5px;
-        height: 40px;
-        min-height: 40px;
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-        .field-slider-group .field-slider .slider-box {
-            vertical-align: middle;
-            width: 100%;
-        }
-
-        .field-slider-group .slider-values {
-            position:absolute;
-            top:0;
-            font-size: 0.7em;
-            width:100%;
-        }
-
-            .field-slider-group .slider-values .min {
-                position:relative;
-                float:left;
-            }
-            .field-slider-group .slider-values .max {
-                position: relative;
-                float: right;
-            }*/
-
-.field-slider-group {
-    grid-column: 1 / 4;
-}
-
-        .field-slider-group .field-slider .slider-box {
-            margin: 5px 10px;
-        }
-
-    .field-slider-group .slider-values {
-        font-size: 0.9em;
-        width: 100%;
-        height: 20px;
-    }
-
-        .field-slider-group .slider-values .min {
-            position: relative;
-            float: left;
-        }
-
-        .field-slider-group .slider-values .max {
-            position: relative;
-            float: right;
-        }
-
-        .field-slider-group .slider-values .amount {
-            font-size: 1em;
-            font-weight: bold;
-            color: var(--main-accent-color);
-        }
-
-/*.ui-slider-handle {
-    width: auto !important;
-    height: 1.2em;
-    color: #bbbbbb !important;
-}
-
-    .ui-slider-handle div {
-        padding: 0px 5px;
-        width: auto;
-        height: 1.2em;
-        font-size: 0.9em;
-        color: #bbbbbb !important;
-        font-weight: 100 !important;
-    }
-
-        .ui-slider-handle div.amount {
-            display: inline-block;
-            width: auto;
-            min-width: auto;
-            font-weight: bold !important;
-            color: var(--main-accent-color) !important;
-        }*/
-
-/*@media screen and (min-width:1140px) {*/
-@media screen and (min-width:1000px) {
+@media screen and (min-width:1281px) {
     #main-wrapper {
         display: flex;
-        display: block;
     }
 
     .search-box {
         display: grid;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: auto;
         grid-template-rows: auto;
     }
 }
 
 
-/*@media screen and (max-width:1140px) and (min-width:981px) {*/
-@media screen and (max-width:1001px) and (min-width:981px) {
+@media screen and (max-width:1280px) and (min-width:781px) {
+    #main-wrapper {
+        display: flex;
+    }
+
+    .search-box {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+    }
+}
+
+@media screen and (max-width:780px) and (min-width:541px) {
     #main-wrapper {
         display: block;
     }
 
     .search-box {
         display: grid;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: 1fr 1fr 1fr;
         grid-template-rows: auto;
     }
 
-    .field-slider-group {
-        grid-column: 1 / 4;
-        flex-direction: row;
-    }
-
-}
-
-/*@media screen and (max-width:720px) and (min-width:541px) {*/
-@media screen and (max-width:980px) and (min-width:541px) {
-    #main-wrapper {
-        display: block;
-    }
-
-    .search-box {
-        display: grid;
-        grid-template-columns: auto auto auto;
-        grid-template-rows: auto;
-    }
-
-    .field-slider-group {
-        grid-column: 1 / 4;
-        flex-direction: row;
-    }
 
     button.btn {
-        grid-column: 1 / 3;
+        grid-column: 1/4;
     }
 }
 
@@ -186,10 +80,6 @@
         grid-template-rows: auto;
     }
 
-    .field-slider-group {
-        grid-column: 1 / 1;
-        flex-direction: column;
-    }
 
 }
 

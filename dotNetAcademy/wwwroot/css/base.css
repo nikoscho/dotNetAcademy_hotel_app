@@ -8,6 +8,8 @@ html, body {
     font-size: 16px;
     font-family: var(--txt-font-family);
     color: var(--main-txt-color);
+
+    min-width: 300px;
 }
 
 /* ==========================================================================

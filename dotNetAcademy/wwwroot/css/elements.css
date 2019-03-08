@@ -232,6 +232,40 @@ button.btn {
 }
 
 /* ==========================================================================
+   Slider
+   ========================================================================== */
+
+.field-slider-group {
+}
+
+.field-slider-group .field-slider .slider-box {
+    margin: 5px 10px;
+}
+
+.field-slider-group .slider-values {
+    font-size: 0.9em;
+    width: 100%;
+    height: 20px;
+}
+
+.field-slider-group .slider-values .min {
+    position: relative;
+    float: left;
+}
+
+.field-slider-group .slider-values .max {
+    position: relative;
+    float: right;
+}
+
+.field-slider-group .slider-values .amount {
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--main-accent-color);
+}
+
+
+/* ==========================================================================
    Rating
    ========================================================================== */
 .form-primary > .rating-input {
