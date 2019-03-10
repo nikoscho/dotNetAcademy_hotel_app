@@ -53,23 +53,6 @@ $(function () {
 });
 
 
-function toggleFavoriteRequest(url, element_to_change) {
-    $.ajax({
-        type: "GET",
-        url: url,
-        headers: { "X-AFT": $('input[name="__RequestVerificationToken]"').val() },
-        success: function (response) {
-            if (response)
-                element_to_change.addClass("checked");
-            else
-                element_to_change.removeClass("checked");
-        },
-        error: function (response) {
-            element_to_change.removeClass("checked");
-        }
-    });
-}
-
 
 
 function formValidation(change_element_class = true) {

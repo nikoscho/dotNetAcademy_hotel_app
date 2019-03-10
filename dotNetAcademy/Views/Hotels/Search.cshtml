@@ -37,9 +37,11 @@
             @foreach (var room in Model.Rooms) {
                 <a class="card-link" asp-controller="Hotels" asp-action="Room" asp-route-id="@room.RoomId" asp-route-checkin='@Model.FilterModel.CheckIn' asp-route-checkout='@Model.FilterModel.CheckOut'>
                     <div class="hotel-card">
-                        <div class='card-favorite @(room.Favorites != null && room.Favorites.Any() ? "checked": "")' data-href="@Url.Action("ToggleFavorite", "Hotels", new { id = room.RoomId}, null)">
-                            <i class="fas fa-heart"></i>
-                        </div>
+                        @if (User.Identity.IsAuthenticated) {
+                            <div class='card-favorite @(room.Favorites != null && room.Favorites.Any() ? "checked": "")' data-href="@Url.Action("ToggleFavorite", "Hotels", new { id = room.RoomId}, null)">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        }
                         <div class="card-image" style="background-image: url(/img/@(room.Photo));"></div>
                         <div class="card-content">
                             <div class="card-row">

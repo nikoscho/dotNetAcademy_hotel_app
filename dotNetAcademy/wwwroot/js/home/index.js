@@ -17,15 +17,6 @@
 
 });
 
-$(document).ready(function () {
-    console.log("document loaded");
-});
-
-$(window).on("load", function () {
-    console.log("window loaded");
-});
-
-
 function formValidation(change_element_class = true) {
 
     var valid_form = true;

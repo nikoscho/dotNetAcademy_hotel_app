@@ -1,34 +1,8 @@
 ﻿///////////////////////////////////////////////////////////////
-// Ajax
-///////////////////////////////////////////////////////////////
-//function toggleFavoriteRequest(url, userid, element_to_change) {
-//    $.ajax({
-//        type: "POST",
-//        url: url,
-//        data: { 'UserId': userid },
-//        success: function (response) {
-//            console.log("success");
-//            console.log(response);
-
-//            if (response) 
-//                element_to_change.addClass("checked");
-//            else 
-//                element_to_change.removeClass("checked");
-
-//        },
-//        error: function (response) {
-//            console.log("error");
-//            console.log(response);
-//            element_to_change.removeClass("checked");
-//        }
-//    });
-//}
-
-///////////////////////////////////////////////////////////////
 // Check Fields/Dates
 ///////////////////////////////////////////////////////////////
 function checkField(field_id, update_ui, errordiv_id, errormessage) {
-    if (!$('#' + field_id).val()) {
+    if (!$('#' + field_id).val() || $('#' + field_id).val() == 0) {
         if (update_ui) {
             $('#' + field_id).addClass('invalid-input');
             $('#' + errordiv_id).addClass('show');
@@ -59,4 +33,24 @@ function checkDatesRange(start_date_field_id, end_date_field_id, update_ui, erro
         }
         return true;
     }
+}
+
+///////////////////////////////////////////////////////////////
+// Ajax - toggle favorite
+///////////////////////////////////////////////////////////////
+function toggleFavoriteRequest(url, element_to_change) {
+    $.ajax({
+        type: "GET",
+        url: url,
+        headers: { "X-AFT": $('input[name="__RequestVerificationToken]"').val() },
+        success: function (response) {
+            if (response)
+                element_to_change.addClass("checked");
+            else
+                element_to_change.removeClass("checked");
+        },
+        error: function (response) {
+            element_to_change.removeClass("checked");
+        }
+    });
 }

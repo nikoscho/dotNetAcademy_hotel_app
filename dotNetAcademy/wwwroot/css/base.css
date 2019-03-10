@@ -169,10 +169,16 @@ footer {
         color: var(--main-txt-color);
     }
 
+.footer-link {
+    color: var(--main-accent-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
 /* ==========================================================================
    Other
    ========================================================================== */
-
 .row {
     display: block;
     width: 100%;

@@ -32,9 +32,9 @@
 
 <div class="room-features">
     @*<div class="room-feature">
-        <i class="fas fa-money-bill"></i>
-        <span> @(Model.Room.Price) &euro; / per night</span>
-    </div>*@
+            <i class="fas fa-money-bill"></i>
+            <span> @(Model.Room.Price) &euro; / per night</span>
+        </div>*@
     <div class="room-feature">
         <i class="fas fa-hotel"></i>
         <span> @(Model.Room.RoomType.RoomType1)</span>
@@ -71,28 +71,32 @@
 
 <div class="room-booking">
 
-@if (Model.ShowBookingButton) {
-    if (!Model.IsAvailable) {
-        <form method="post" asp-controller="Hotels" asp-action="DeleteBooking" asp-route-id="@Model.Room.RoomId" autocomplete="off">
-            <input type="hidden" asp-for="BookingForm.CheckIn" value="@Model.Room.Bookings.ElementAt(0).CheckInDate" />
-            <input type="hidden" asp-for="BookingForm.CheckOut" value="@Model.Room.Bookings.ElementAt(0).CheckOutDate" />
-            <button class="btn btn-error" type="submit" value="Cancel Booking">
-                Cancel Booking:
-                @(DateTime.ParseExact(@Model.Room.Bookings.ElementAt(0).CheckInDate, "yyyy-mm-dd", null).Date.ToString("dd MMM yyyy") )
-                -
-                @(DateTime.ParseExact(@Model.Room.Bookings.ElementAt(0).CheckOutDate, "yyyy-mm-dd", null).Date.ToString("dd MMM yyyy"))
-            </button>
-        </form>
-    }else {
-        <form method="post" asp-controller="Hotels" asp-action="Book" asp-route-id="@Model.Room.RoomId" autocomplete="off">
-            <input type="hidden" asp-for="BookingForm.CheckIn" />
-            <input type="hidden" asp-for="BookingForm.CheckOut" />
-            <button class="btn btn-primary" type="submit" value="Book Now">
-                Book: @Context.Request.Query["CheckIn"][0] to @Context.Request.Query["CheckOut"][0]
-            </button>
-        </form>
+    @if (User.Identity.IsAuthenticated && Model.ShowBookingButton) {
+        if (!Model.IsAvailable) {
+            <form method="post" asp-controller="Hotels" asp-action="DeleteBooking" asp-route-id="@Model.Room.RoomId" autocomplete="off">
+                <input type="hidden" asp-for="BookingForm.CheckIn" value="@Model.BookingForm.CheckIn" />
+                <input type="hidden" asp-for="BookingForm.CheckOut" value="@Model.BookingForm.CheckOut"/>
+                <button class="btn btn-error" type="submit" value="Cancel Booking">
+                    Cancel Booking:
+                    @(DateTime.ParseExact(@Model.BookingForm.CheckIn, "yyyy-mm-dd", null).Date.ToString("dd MMM yyyy") )
+                    to
+                    @(DateTime.ParseExact(@Model.BookingForm.CheckOut, "yyyy-mm-dd", null).Date.ToString("dd MMM yyyy"))
+                </button>
+            </form>
+        }
+        else {
+            <form method="post" asp-controller="Hotels" asp-action="Book" asp-route-id="@Model.Room.RoomId" autocomplete="off">
+                <input type="hidden" asp-for="BookingForm.CheckIn" />
+                <input type="hidden" asp-for="BookingForm.CheckOut" />
+                <button class="btn btn-primary" type="submit" value="Book Now">
+                    Book:
+                    @(DateTime.ParseExact(@Model.BookingForm.CheckIn, "yyyy-mm-dd", null).Date.ToString("dd MMM yyyy") )
+                    to
+                    @(DateTime.ParseExact(@Model.BookingForm.CheckOut, "yyyy-mm-dd", null).Date.ToString("dd MMM yyyy"))
+                </button>
+            </form>
+        }
     }
-}
 </div>
 
 <div class="room-inpage-title">Location</div>
@@ -102,22 +106,19 @@
 <div class="room-inpage-title">
     Reviews <span class="room-rate">- @Model.Room.Reviews.Select(x => x.Rate).DefaultIfEmpty(0).Average().ToString("0.0") <i class="fas fa-star yellow"></i></span>
 </div>
-
-<div class="room-add-review">
-    <div class="col-left">
-        <partial name="_ReviewPartial" model="Model.ReviewForm" />
-    </div>
-</div>
-
 <div class="room-reviews">
     @foreach (var review in Model.Room.Reviews) {
         <div class="room-review">
-            <div class="review-user">
-                <i class="fas fa-user"></i>
-                <span>Nikos</span>
+            <div class="review-header">
+                <div class="review-user">
+                    <i class="fas fa-user"></i>
+                    <span>Nikos</span>
+                </div>
+                <div class="review-timestamp">
+                    @review.DateCreated.ToString("dd/MM/yyyy hh:mm")
+                </div>
             </div>
             <div class="review-stars">
-                @*@for (var i = 1; i <= review.Rate; i++) {<i class="fas fa-star"></i>}*@
                 @for (var i = 1; i <= 5; i++) {
                     @if (i <= review.Rate) {<i class="fas fa-star yellow"></i> }
                     else { <i class="fas fa-star grey"></i>}
@@ -129,3 +130,12 @@
         </div>
     }
 </div>
+
+@if (User.Identity.IsAuthenticated) {
+    <div class="room-add-review">
+        <div class="col-left">
+            <partial name="_ReviewPartial" model="Model.ReviewForm" />
+        </div>
+    </div>
+}
+

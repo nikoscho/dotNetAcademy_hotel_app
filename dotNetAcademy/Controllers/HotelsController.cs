@@ -132,7 +132,7 @@ namespace dotNetAcademy.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult ToggleFavorite(int id, ToggleFavoriteForm favoriteform) {
+        public IActionResult ToggleFavorite(int id) {
             var userid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
 
             if ( userid == -1)
@@ -166,14 +166,14 @@ namespace dotNetAcademy.Controllers
         [Authorize]
         public IActionResult Book(int id, BookingFormModel BookingForm) {
 
-            var useid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
+            var userid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
 
             _db.Bookings.Add(new Bookings {
                 CheckInDate = BookingForm.CheckIn,
                 CheckOutDate = BookingForm.CheckOut,
                 DateCreated = DateTime.Now,
                 RoomId = id,
-                UserId = useid,
+                UserId = userid,
             });
             _db.SaveChanges();
 
@@ -181,18 +181,17 @@ namespace dotNetAcademy.Controllers
             return RedirectToAction("Room", "Hotels", new { id, BookingForm.CheckIn, BookingForm.CheckOut });
         }
 
-        //[HttpDelete, ActionName("Book")]
-        //public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
         [HttpPost]
         [Authorize]
         public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
+            var userid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
 
             try {
                 var booking = _db.Bookings.FirstOrDefault( b =>
                        b.RoomId == id
                        && b.CheckInDate == BookingForm.CheckIn
                        && b.CheckOutDate == BookingForm.CheckOut
-                       && b.UserId == 1
+                       && b.UserId == userid
                     );
 
                 if (booking != null) {

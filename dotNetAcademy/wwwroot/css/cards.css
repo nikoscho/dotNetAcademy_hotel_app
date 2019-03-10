@@ -63,7 +63,7 @@ a.card-link {
         }
 
     .cards-container-1c .hotel-card {
-        flex-direction: column;
+        flex-direction: row;
     }
 }
 
@@ -79,7 +79,7 @@ a.card-link {
         }
 
     .cards-container-1c .hotel-card {
-        flex-direction: column;
+        flex-direction: row;
     }
 }
 
@@ -94,7 +94,7 @@ a.card-link {
         }
     
     .cards-container-1c .hotel-card {
-        flex-direction: row;
+        flex-direction: column;
     }
 }
 

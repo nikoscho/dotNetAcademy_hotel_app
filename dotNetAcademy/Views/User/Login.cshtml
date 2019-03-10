@@ -12,27 +12,31 @@
     <script src="@Url.Content("~/js/user/login.js")"></script>
 }
 
+<form method="post" asp-controller="User" asp-action="Login" onsubmit="return loginValidation()">
+    <div class="login-box form-primary">
 
-
-
-@*<form action='@Url.Action("Search", "Hotels", null, null)' onsubmit="return formIsValid()">*@
-@*<form method="get" onsubmit="return formIsValid()">*@
-    <form method="post" asp-controller="User" asp-action="Login" onsubmit="return formIsValid()">
-        <div class="login-box form-primary">
-
+        <div class="field-with-error">
             <input id="username"
-                   type='text'
-                   asp-for="Username"
-                   placeholder="username"
-                   autocomplete="off" />
-
-            <input id="passoword"
-                   type='password'
-                   asp-for="Password"
-                   placeholder="password"
-                   autocomplete="off" />
-
-            <button class="btn btn-primary" type="submit" value="Submit">Login</button>
-
+                    type='text'
+                    asp-for="Username"
+                    placeholder="username"
+                    autocomplete="off" />
+            <div class="field-error-msg">
+                <span id="username-error" asp-validation-for="Username"></span>
+            </div>
         </div>
-    </form>
+
+        <div class="field-with-error">
+            <input id="password"
+                    type='password'
+                    asp-for="Password"
+                    placeholder="password"
+                    autocomplete="off" />
+            <div class="field-error-msg">
+                <span id="password-error" asp-validation-for="Password"></span>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit" value="Submit">Login</button>
+
+    </div>
+</form>

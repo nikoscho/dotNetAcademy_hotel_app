@@ -1,19 +1,19 @@
 ﻿@model dotNetAcademy.ViewModels.ReviewFormModel
 
-@{ 
+@{
     var roomId = (int)ViewData["RoomId"];
 }
 
-<form method="post" asp-controller="Hotels" asp-action="SubmitReview" asp-route-id="@roomId" onsubmit="" autocomplete="off">
+<form method="post" asp-controller="Hotels" asp-action="SubmitReview" asp-route-id="@roomId" onsubmit="return reviewValidation()" autocomplete="off">
     <div class="form-primary">
 
-        <textarea id="text"
-                  asp-for="Text"></textarea>
-
-        <input id="rate"
-               type='number'
-               asp-for="Rate"
-               hidden />
+        <div class="field-with-error">
+            <textarea id="text"
+                      asp-for="Text"></textarea>
+            <div class="field-error-msg">
+                <span id="text-error" asp-validation-for="Text"></span>
+            </div>
+        </div>
 
         <div class="rating-input">
             <i class="fas fa-star rating-star" name="1"></i>
@@ -22,6 +22,17 @@
             <i class="fas fa-star rating-star" name="4"></i>
             <i class="fas fa-star rating-star" name="5"></i>
         </div>
+
+        <div class="field-with-error">
+            <input id="rate"
+                   type='number'
+                   asp-for="Rate"
+                   hidden />
+            <div class="field-error-msg">
+                <span id="rate-error" asp-validation-for="Rate"></span>
+            </div>
+        </div>
+
 
         <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
     </div>
