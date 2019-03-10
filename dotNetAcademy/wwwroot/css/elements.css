@@ -280,11 +280,11 @@ button.btn {
     cursor: pointer;
 }
 .rating-input i.rating-star.selected {
-    color: var(--main-accent-color);
+    color: #f1c40f;
 }
 
 .rating-input:hover > i.rating-star {
-    color: var(--main-accent-color-dark);
+    color: #cca50a;
 }
 .rating-input > i.rating-star:hover ~ i.rating-star {
     color: #dddddd;

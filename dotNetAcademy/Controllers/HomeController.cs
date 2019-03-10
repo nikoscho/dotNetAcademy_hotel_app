@@ -30,14 +30,6 @@ namespace dotNetAcademy.Controllers
         public IActionResult Index() {
             ViewData["Cities"] = _db.Room.Select(r => r.City).Distinct();
             ViewData["RoomTypes"] = _db.RoomType;
-
-
-            //ViewData["ModelState"] = TempData.Get<ModelStateDictionary>("ModelState");
-            if ( TempData["ViewData"] != null )
-                ViewData = TempData.Get<ViewDataDictionary>("ViewData");
-
-            //RoomFiltersModel model = TempData["RoomFilters"] as RoomFiltersModel;
-
             return View();
         }
 

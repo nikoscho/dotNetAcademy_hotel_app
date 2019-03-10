@@ -1,12 +1,11 @@
 ﻿@model dotNetAcademy.ViewModels.SearchViewModel
 
-@{ 
+@{
     ViewData["Title"] = "Search";
 
     var cities = ViewData["Cities"] as IEnumerable<string>;
     var roomTypes = ViewData["RoomTypes"] as IEnumerable<RoomType>;
 }
-
 
 @section Css {
     <link href="@Url.Content("~/css/hotels/search.css")" rel="stylesheet" />
@@ -14,8 +13,6 @@
 
 @section Scripts {
     <script src="@Url.Content("~/js/hotels/search.js")"></script>
-    @*<script async defer type="text/javascript" src="https://maps.google.com/maps/api/js?v=3.exp&key=AIzaSyAP1CBF-e5lFiBHvj-xya_5W9reCj8O6mQ&callback=initMap"></script>*@
-
 
     <script>
         var query_checkin = '@Model.FilterModel.CheckIn';
@@ -23,13 +20,13 @@
         var query_minamount = '@Model.FilterModel.AmountMin';
         var query_maxamount = '@Model.FilterModel.AmountMax';
     </script>
-
 }
 
 <div class="col-left">
-    @*@await Html.PartialAsync("_SearchPartial", Model.FilterModel)*@
     <partial name="_SearchPartial" model="Model.FilterModel" />
 </div>
+
+@Html.AntiForgeryToken()
 
 <div class="col-right">
     <div class="cards-container-2c">
@@ -38,11 +35,9 @@
         }
         else {
             @foreach (var room in Model.Rooms) {
-                @*<a class="card-link" href='@Url.Action("Room", "Hotels", new { id=room.RoomId}, null)'>*@
-                @*<a class="card-link" asp-controller="Hotels" asp-action="Room" asp-route-id="@room.RoomId" asp-route-checkin='@Context.Request.Query["CheckIn"][0]' asp-route-checkout='@Context.Request.Query["CheckOut"][0]'>*@
                 <a class="card-link" asp-controller="Hotels" asp-action="Room" asp-route-id="@room.RoomId" asp-route-checkin='@Model.FilterModel.CheckIn' asp-route-checkout='@Model.FilterModel.CheckOut'>
                     <div class="hotel-card">
-                        <div class="card-favorite" data-href="@Url.Action("ToggleFavorite", "Hotels", new { id = room.RoomId}, null)">
+                        <div class='card-favorite @(room.Favorites != null && room.Favorites.Any() ? "checked": "")' data-href="@Url.Action("ToggleFavorite", "Hotels", new { id = room.RoomId}, null)">
                             <i class="fas fa-heart"></i>
                         </div>
                         <div class="card-image" style="background-image: url(/img/@(room.Photo));"></div>
@@ -54,7 +49,6 @@
                                 </div>
                                 <div class="card-rate">@room.Reviews.Select(x => x.Rate).DefaultIfEmpty(0).Average().ToString("0.0")<i class="fas fa-star"></i></div>
                             </div>
-
                             <div class="card-text">
                                 @(room.ShortDescription)
                             </div>

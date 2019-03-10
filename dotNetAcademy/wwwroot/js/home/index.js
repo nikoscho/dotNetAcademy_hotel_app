@@ -3,14 +3,16 @@
     $('#checkin').datepicker({
         language: 'en',
         dateFormat: 'yyyy-mm-dd',
-        minDate: new Date()
+        minDate: new Date(),
+        autoClose: true
     })
 
 
     $('#checkout').datepicker({
         language: 'en',
         dateFormat: 'yyyy-mm-dd',
-        minDate: new Date()
+        minDate: new Date(),
+        autoClose: true
     })
 
 });

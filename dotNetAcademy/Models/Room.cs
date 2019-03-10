@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace dotNetAcademy.Models
 {
@@ -25,6 +26,5 @@ namespace dotNetAcademy.Models
         public ICollection<Reviews> Reviews { get; set; }
         public ICollection<Favorites> Favorites { get; set; }
         public ICollection<Bookings> Bookings { get; set; }
-
     }
 }

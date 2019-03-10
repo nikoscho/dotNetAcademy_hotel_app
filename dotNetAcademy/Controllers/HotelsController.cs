@@ -11,6 +11,8 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using dotNetAcademy.Extensions;
+using Microsoft.Ajax.Utilities;
+using System.Collections.ObjectModel;
 
 namespace dotNetAcademy.Controllers
 {
@@ -26,49 +28,46 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
-        {
-            ViewData["Cities"] = _db.Room.Select(r => r.City).Distinct();
-            ViewData["RoomTypes"] = _db.RoomType;
-
-            return View();
-        }
-
-        [HttpGet]
         public IActionResult Search(RoomFiltersModel filters)
         {
             ViewData["Cities"] = _db.Room.Select(r => r.City).Distinct();
             ViewData["RoomTypes"] = _db.RoomType;
 
             if (!ModelState.IsValid) {
-                //Save you object
-                //TempData["ModelState"] = ModelState;
-                //TempData.Put("ModelState", ModelState);
-                TempData.Put("ViewData", ViewData);
-
                 return Redirect(Request.Headers["Referer"].ToString());
-                //throw new ApplicationException("Invalid Filters");
             }
 
             var rooms = _db.Room
-                .Include( t => t.RoomType)
+                .Include(t => t.RoomType)
                 .Include(r => r.Reviews)
-                .Where( room =>
-                       ( filters.RoomTypeId == null           || room.RoomTypeId == filters.RoomTypeId    )
-                    && ( string.IsNullOrEmpty(filters.City)   || room.City == filters.City                )
-                );
+                .AsQueryable();
+
+            // Included user's favorites
+            if ( User.Identity.IsAuthenticated ) {
+                var userid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
+
+                rooms = rooms
+                    .Include(t => t.Favorites)
+                    .Where( q =>
+                        q.Favorites.All( a=> a.UserId == userid)
+                    )
+                    .AsQueryable();
+            }
+
+            if (!string.IsNullOrEmpty(filters.City))
+                rooms = rooms.Where(room => room.City == filters.City);
+            if (filters.RoomTypeId != null)
+                rooms = rooms.Where(room => room.RoomTypeId == filters.RoomTypeId);
+            if (filters.NumberOfGuests != null)
+                rooms = rooms.Where(room => room.CountOfGuests >= filters.NumberOfGuests);
+            if (filters.AmountMin != null)
+                rooms = rooms.Where(room => room.Price >= filters.AmountMin);
+            if (filters.AmountMax != null)
+                rooms = rooms.Where(room => room.Price <= filters.AmountMax);
 
 
-
-            //var rooms = _db.Room.Include(room => room.RoomType).AsQueryable();
-
-            //if (!string.IsNullOrEmpty(filters.City))
-            //    rooms = rooms.Where(room => room.City == filters.City);
-
-            //if ( filters.RoomTypeId != null )
-            //    rooms = rooms.Where(room => room.RoomTypeId == filters.RoomTypeId);
-
-            if (!string.IsNullOrEmpty(filters.CheckIn) && !string.IsNullOrEmpty(filters.CheckOut) && filters.CheckIn.CompareTo(filters.CheckOut) <= 0) {
+            // Remove booked rooms from list
+            if ( !string.IsNullOrEmpty(filters.CheckIn) && !string.IsNullOrEmpty(filters.CheckOut) && filters.CheckIn.CompareTo(filters.CheckOut) <= 0) {
                 var bookings = _db.Bookings
                     .Where(booking =>
                        booking.CheckInDate.CompareTo(filters.CheckOut) <= 0 &&
@@ -80,11 +79,6 @@ namespace dotNetAcademy.Controllers
             SearchViewModel model = new SearchViewModel {
                 Rooms = rooms.AsEnumerable(),
                 FilterModel = filters
-                //filters
-                //FilterModel = new RoomFiltersModel {
-                //        CheckIn = filters.CheckIn,
-                //        CheckOut = filters.CheckOut
-                //},
             };
 
             return View(model);
@@ -120,7 +114,7 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public IActionResult SubmitReview(int id, ReviewFormModel review) {
 
             Reviews review_obj = new Reviews {
@@ -136,18 +130,21 @@ namespace dotNetAcademy.Controllers
             return RedirectToAction("Room", "Hotels", new { id });
         }
 
-        [HttpPost]
-        //[Authorize]
+        [HttpGet]
+        [Authorize]
         public IActionResult ToggleFavorite(int id, ToggleFavoriteForm favoriteform) {
-            var useid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
+            var userid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
+
+            if ( userid == -1)
+                return Json(false);
 
             try {
-                var favorite = _db.Favorites.FirstOrDefault(fav => fav.RoomId == id && fav.UserId == favoriteform.UserId);
+                var favorite = _db.Favorites.FirstOrDefault(fav => fav.RoomId == id && fav.UserId == userid);
 
                 if (favorite == null) {
                     _db.Favorites.Add(new Favorites {
                         RoomId = id,
-                        UserId = favoriteform.UserId,
+                        UserId = userid,
                         Status = 1,
                         DateCreated = DateTime.Now,
                     });
@@ -166,7 +163,7 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public IActionResult Book(int id, BookingFormModel BookingForm) {
 
             var useid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
@@ -187,10 +184,8 @@ namespace dotNetAcademy.Controllers
         //[HttpDelete, ActionName("Book")]
         //public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
-
-
 
             try {
                 var booking = _db.Bookings.FirstOrDefault( b =>
@@ -207,7 +202,6 @@ namespace dotNetAcademy.Controllers
             }
             catch {
                 return RedirectToAction("Room", "Hotels", new { id, BookingForm.CheckIn, BookingForm.CheckOut });
-                //return RedirectToAction("Room", "Hotels", new { id });
             }
 
             return RedirectToAction("Room", "Hotels", new { id, BookingForm.CheckIn, BookingForm.CheckOut });

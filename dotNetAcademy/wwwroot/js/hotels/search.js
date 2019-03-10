@@ -4,14 +4,16 @@ $(function () {
     var checkin = $('#checkin').datepicker({
         language: 'en',
         dateFormat: 'yyyy-mm-dd',
-        minDate: new Date()
+        minDate: new Date(),
+        autoClose: true
     }).data('datepicker');
 
 
     var checkout = $('#checkout').datepicker({
         language: 'en',
         dateFormat: 'yyyy-mm-dd',
-        minDate: new Date()
+        minDate: new Date(),
+        autoClose: true
     }).data('datepicker');
 
     if (query_checkin)
@@ -42,13 +44,32 @@ $(function () {
     $('.card-favorite').on('click', function (event) {
         console.log("clicked_favorite");
 
-        toggleFavoriteRequest($(this).data("href"), 1, $(this));
+        toggleFavoriteRequest($(this).data("href"), $(this));
         event.stopImmediatePropagation();
         event.preventDefault();
     });
 
 
 });
+
+
+function toggleFavoriteRequest(url, element_to_change) {
+    $.ajax({
+        type: "GET",
+        url: url,
+        headers: { "X-AFT": $('input[name="__RequestVerificationToken]"').val() },
+        success: function (response) {
+            if (response)
+                element_to_change.addClass("checked");
+            else
+                element_to_change.removeClass("checked");
+        },
+        error: function (response) {
+            element_to_change.removeClass("checked");
+        }
+    });
+}
+
 
 
 function formValidation(change_element_class = true) {
