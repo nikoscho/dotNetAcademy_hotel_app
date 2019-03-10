@@ -36,5 +36,22 @@ function formValidation(change_element_class = true) {
     return valid_form;
 }
 
+///////////////////////////////////////////////////////////////
+// Cycle background images
+///////////////////////////////////////////////////////////////
+//var imageIndex = 0;
+//var imagesArray = [
+//    "img/main_bg.jpg",
+//    "img/main_bg_4.jpg",
+//    "img/main_bg_2.jpg",
+//    "img/main_bg_3.jpg",
+//];
 
+//function changeBackground() {
+//    var index = imageIndex++ % imagesArray.length;
+//    $("#main-wrapper").css("background-image", "url('" + imagesArray[index] + "')");
+//}
 
+//$(document).ready(function () {
+//    setInterval(changeBackground, 3000);
+//});

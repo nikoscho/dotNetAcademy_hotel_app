@@ -59,7 +59,9 @@
             @foreach (var booking in Model.Bookings) {
                 <a class="card-link" asp-controller="Hotels" asp-action="Room" asp-route-id="@booking.Room.RoomId" asp-route-checkin='@booking.CheckInDate' asp-route-checkout='@booking.CheckOutDate'>
                     <div class="hotel-card">
-                        <div class="card-image" style="background-image: url(/img/@(booking.Room.Photo));"></div>
+                        <div class="card-image-box">
+                            <div class="card-image" style="background-image: url(/img/@(booking.Room.Photo));"></div>
+                        </div>
                         <div class="card-content">
                             <div class="card-row">
                                 <div class="card-info">

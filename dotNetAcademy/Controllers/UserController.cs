@@ -30,6 +30,8 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel model)
         {
             if (ModelState.IsValid) {
@@ -37,19 +39,22 @@ namespace dotNetAcademy.Controllers
                 var result = _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false).Result;
 
                 if (result.Succeeded) {
+                    if (!string.IsNullOrWhiteSpace(model.UrlToReturn)) {
+                        return Redirect(model.UrlToReturn);
+                    }
                     return RedirectToAction("Profile", "User");
                 } else {
-                    return RedirectToAction("Index", "Home");
+                    ModelState.AddModelError("", "Invalid login attempt");
+                    return View(model);
                 }
-
             }
 
             ModelState.AddModelError("", "Invalid login attempt");
-
             return View(model);
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult Logout() { 
 
             if (ModelState.IsValid) {

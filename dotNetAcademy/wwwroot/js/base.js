@@ -40,7 +40,7 @@ function checkDatesRange(start_date_field_id, end_date_field_id, update_ui, erro
 ///////////////////////////////////////////////////////////////
 function toggleFavoriteRequest(url, element_to_change) {
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: url,
         headers: { "X-AFT": $('input[name="__RequestVerificationToken]"').val() },
         success: function (response) {

@@ -3,9 +3,7 @@
     box-sizing: border-box;
     width: 100%;
     max-width: 1280px;
-    /*max-width: 1140px;*/
     margin: 0 auto;
-    /*display: flex;*/
     padding: 15px;
 }
 
@@ -83,6 +81,8 @@ i.yellow {
     margin: 15px auto;
     max-width: 100%;
 }
+
+
 
 
 /* ==========================================================================

@@ -42,8 +42,6 @@ $(function () {
 
 
     $('.card-favorite').on('click', function (event) {
-        console.log("clicked_favorite");
-
         toggleFavoriteRequest($(this).data("href"), $(this));
         event.stopImmediatePropagation();
         event.preventDefault();

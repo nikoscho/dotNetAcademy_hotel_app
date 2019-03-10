@@ -28,6 +28,7 @@ namespace dotNetAcademy.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Search(RoomFiltersModel filters)
         {
             ViewData["Cities"] = _db.Room.Select(r => r.City).Distinct();
@@ -115,6 +116,7 @@ namespace dotNetAcademy.Controllers
 
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public IActionResult SubmitReview(int id, ReviewFormModel review) {
 
             Reviews review_obj = new Reviews {
@@ -130,7 +132,7 @@ namespace dotNetAcademy.Controllers
             return RedirectToAction("Room", "Hotels", new { id });
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize]
         public IActionResult ToggleFavorite(int id) {
             var userid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
@@ -164,6 +166,7 @@ namespace dotNetAcademy.Controllers
 
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public IActionResult Book(int id, BookingFormModel BookingForm) {
 
             var userid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
@@ -183,6 +186,7 @@ namespace dotNetAcademy.Controllers
 
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteBooking(int id, BookingFormModel BookingForm) {
             var userid = this.User.Identity.IsAuthenticated ? int.Parse(this.User.FindFirst(ClaimTypes.NameIdentifier).Value) : -1;
 
